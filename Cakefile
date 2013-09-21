@@ -79,32 +79,45 @@ exec = (command, next) ->
     if error then console.log 'Failed: Unable to ' + command else next()
 
 spawn = (command, options, next) ->
-  command = child_process.spawn command, options
-  command.stdout.on 'data', STDOUT.write
-  command.stderr.on 'data', STDOUT.write
-  command.on 'close', (code) ->
+  cmd = child_process.spawn command, options
+  cmd.stdout.on 'data', STDOUT.write
+  cmd.stderr.on 'data', STDOUT.write
+  cmd.on 'close', (code) ->
     if code is 0 then next() else console.log 'Failed: ' + command + ' returns status code ' + code + '.'
 
 task 'make:java', 'make java files and compile to jar', ->
-  all_hans = (String.fromCharCode(num) for num in [parseInt('4e00', 16)..parseInt('9fcb', 16)])
-  all_hans = all_hans[0..1000].join('')
-  get_cantonese_pinyin all_hans, (body) ->
-    list = {}
-    for entry in parse_body(body)
-      oct = string_to_octal_array(entry[2])
-      list[oct[0]] = {} unless list.hasOwnProperty(oct[0])
-      list[oct[0]][oct[1]] = {} unless list[oct[0]].hasOwnProperty(oct[1])
-      list[oct[0]][oct[1]][oct[2]] = { char: entry[2], pinyin: entry[1] }
+  start = 19968 # parseInt('4e00', 16)
+  max = 40907 # parseInt('9fcb', 16)
+  step = 10000
+  list = {}
 
-    java_src_dir = __dirname + '/java/src/org/cghio/cantonese/romanization/'
-    tmp_dir = __dirname + '/tmp'
-    jar_file = __dirname + '/cantonese-romanization.jar'
-    exec 'mkdir -p "' + java_src_dir + '"', ->
-      exec 'mkdir -p "' + tmp_dir + '"', ->
-        java_src_file = java_src_dir + 'Hanzi2Pinyin.java'
-        data = make_java_source list
-        write_file java_src_file, data, ->
-          spawn 'javac', ['-d', tmp_dir, java_src_file], ->
-            spawn 'jar', ['cf', jar_file, '-C', tmp_dir, 'org'], ->
-              exec 'rm -rf "' + tmp_dir + '"', ->
-                console.log 'OK. Jar file is made: ' + jar_file
+  get_chars = ->
+    end = start + step - 1
+    if end > max then end = max
+    hans = ''
+    hans += String.fromCharCode(num) for num in [start..end]
+    console.log start, end, hans.length, hans[0], hans[hans.length-1]
+    get_cantonese_pinyin hans, (body) ->
+      for entry in parse_body(body)
+        oct = string_to_octal_array(entry[2])
+        list[oct[0]] = {} unless list.hasOwnProperty(oct[0])
+        list[oct[0]][oct[1]] = {} unless list[oct[0]].hasOwnProperty(oct[1])
+        list[oct[0]][oct[1]][oct[2]] = { char: entry[2], pinyin: entry[1] }
+      if end < max
+        start += step
+        get_chars()
+      else
+        java_src_dir = __dirname + '/java/src/org/cghio/cantonese/romanization/'
+        tmp_dir = __dirname + '/tmp'
+        jar_file = __dirname + '/cantonese-romanization.jar'
+        exec 'mkdir -p "' + java_src_dir + '"', ->
+          exec 'mkdir -p "' + tmp_dir + '"', ->
+            java_src_file = java_src_dir + 'Hanzi2Pinyin.java'
+            data = make_java_source list
+            write_file java_src_file, data, ->
+              spawn 'javac', ['-d', tmp_dir, java_src_file], ->
+                spawn 'jar', ['cf', jar_file, '-C', tmp_dir, 'org'], ->
+                  exec 'rm -rf "' + tmp_dir + '"', ->
+                    console.log 'OK. Jar file is made: ' + jar_file
+
+  get_chars()
