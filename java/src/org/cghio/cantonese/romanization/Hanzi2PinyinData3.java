@@ -551,6 +551,7 @@ public class Hanzi2PinyinData3 {
         case 250: /* 遨 */ return "teng";
         case 251: /* 適 */ return "sik";
         case 255: /* 遭 */ return "jo";
+        case 256: /* 遮 */ return "je";
         case 262: /* 遲 */ return "chi";
         case 264: /* 遴 */ return "teng";
         case 265: /* 遵 */ return "juen";
@@ -706,6 +707,7 @@ public class Hanzi2PinyinData3 {
         case 220: /* 醐 */ return "jau";
         case 221: /* 醑 */ return "jau";
         case 222: /* 醒 */ return "sing";
+        case 232: /* 醚 */ return "mai";
         case 233: /* 醛 */ return "chuen";
         case 234: /* 醜 */ return "chau";
         case 236: /* 醞 */ return "wan";
@@ -787,6 +789,7 @@ public class Hanzi2PinyinData3 {
         case 215: /* 鉍 */ return "bit";
         case 221: /* 鉑 */ return "bok";
         case 227: /* 鉗 */ return "kim";
+        case 232: /* 鉚 */ return "maau";
         case 233: /* 鉛 */ return "yuen";
         case 236: /* 鉞 */ return "yuet";
         case 244: /* 鉤 */ return "ngau";
@@ -902,6 +905,7 @@ public class Hanzi2PinyinData3 {
         case 242: /* 鎢 */ return "woo";
         case 246: /* 鎦 */ return "lau";
         case 247: /* 鎧 */ return "hoi";
+        case 252: /* 鎪 */ return "sau";
         case 254: /* 鎬 */ return "go";
         case 256: /* 鎮 */ return "jan";
         case 260: /* 鎰 */ return "yat";
@@ -966,6 +970,7 @@ public class Hanzi2PinyinData3 {
         case 255: /* 鑭 */ return "laan";
         case 260: /* 鑰 */ return "yeuk";
         case 262: /* 鑲 */ return "seung";
+        case 267: /* 鑷 */ return "nip";
         case 274: /* 鑼 */ return "loh";
         case 275: /* 鑽 */ return "juen";
         case 276: /* 鑾 */ return "gam";
@@ -1007,6 +1012,7 @@ public class Hanzi2PinyinData3 {
         case 251: /* 钩 */ return "ngau";
         case 252: /* 钪 */ return "kong";
         case 253: /* 钫 */ return "fong";
+        case 254: /* 钬 */ return "foh";
         case 255: /* 钭 */ return "dau";
         case 256: /* 钮 */ return "nau";
         case 257: /* 钯 */ return "ba";
@@ -1193,6 +1199,7 @@ public class Hanzi2PinyinData3 {
         case 260: /* 镰 */ return "lim";
         case 261: /* 镱 */ return "yi";
         case 262: /* 镲 */ return "cha";
+        case 263: /* 镳 */ return "biu";
         case 266: /* 镶 */ return "seung";
         case 267: /* 長 */ return "cheung/jeung";
         case 277: /* 长 */ return "cheung/jeung";

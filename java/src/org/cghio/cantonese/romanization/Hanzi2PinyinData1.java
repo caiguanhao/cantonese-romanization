@@ -2732,6 +2732,7 @@ public class Hanzi2PinyinData1 {
         case 201: /* 搁 */ return "gok";
         case 202: /* 搂 */ return "lau";
         case 205: /* 搅 */ return "gaau";
+        case 213: /* 搋 */ return "sau";
         case 214: /* 搌 */ return "sau";
         case 215: /* 損 */ return "suen";
         case 217: /* 搏 */ return "bok";
@@ -3330,6 +3331,7 @@ public class Hanzi2PinyinData1 {
         case 255: /* 椭 */ return "toh";
         case 260: /* 椰 */ return "ye";
         case 264: /* 椴 */ return "muk";
+        case 271: /* 椹 */ return "muk";
         case 275: /* 椽 */ return "yuen";
         case 277: /* 椿 */ return "chun";
         }
@@ -3489,6 +3491,7 @@ public class Hanzi2PinyinData1 {
         case 244: /* 此 */ return "chi";
         case 245: /* 步 */ return "bo";
         case 246: /* 武 */ return "mo";
+        case 247: /* 歧 */ return "kei";
         case 252: /* 歪 */ return "waai";
         case 262: /* 歲 */ return "sui";
         case 267: /* 歷 */ return "lik";

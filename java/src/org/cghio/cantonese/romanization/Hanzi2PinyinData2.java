@@ -1687,6 +1687,7 @@ public class Hanzi2PinyinData2 {
         case 255: /* 維 */ return "wai";
         case 260: /* 綰 */ return "si";
         case 261: /* 綱 */ return "gong";
+        case 262: /* 網 */ return "mong";
         case 264: /* 綴 */ return "chuet/juet";
         case 270: /* 綸 */ return "lun";
         case 271: /* 綹 */ return "si";
@@ -2936,6 +2937,7 @@ public class Hanzi2PinyinData2 {
         case 213: /* 見 */ return "gin";
         case 217: /* 規 */ return "kwai";
         case 223: /* 覓 */ return "mik";
+        case 226: /* 視 */ return "si";
         case 230: /* 覘 */ return "gin";
         case 241: /* 覡 */ return "gin";
         case 246: /* 覦 */ return "gin";
