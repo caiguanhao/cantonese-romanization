@@ -40,16 +40,12 @@ get_cantonese_pinyin = (string, done) ->
   req.end query
   console.log 'Sending HTTP request...'
 
-task 'make:java', 'make java files and compile to jar', ->
+java_src_dir = __dirname + '/java/src/org/cghio/cantonese/romanization/'
+
+task 'java:make', 'make java files', ->
   min = 19968 # parseInt('4e00', 16)
   max = 40907 # parseInt('9fcb', 16)
   step = 8000
-
-  java_src_dir = __dirname + '/java/src/org/cghio/cantonese/romanization/'
-  tmp_dir = __dirname + '/tmp'
-  jar_file = __dirname + '/cantonese-romanization.jar'
-
-  files = []
   index = 0
 
   make_java_main = (max) ->
@@ -133,22 +129,27 @@ task 'make:java', 'make java files and compile to jar', ->
       file = java_src_dir + 'Hanzi2PinyinData' + index + '.java'
       write_file file, data, ->
         console.log 'File was saved: ' + file.replace(/^.*\//, '')
-        files.push file
         if end < max
           get_chars start + step, finish
         else
           finish index
 
   exec 'mkdir -p "' + java_src_dir + '"', ->
-    exec 'mkdir -p "' + tmp_dir + '"', ->
-      get_chars min, (max) ->
-        file = java_src_dir + 'Hanzi2Pinyin.java'
-        files.push file
-        write_file file, make_java_main(max), ->
-          console.log 'File was saved: ' + file.replace(/^.*\//, '')
-          console.log 'Compiling...'
-          spawn 'javac', ['-d', tmp_dir].concat(files), ->
-            console.log 'Archiving...'
-            spawn 'jar', ['cf', jar_file, '-C', tmp_dir, 'org'], ->
-              exec 'rm -rf "' + tmp_dir + '"', ->
-                console.log 'OK. Jar file is made: ' + jar_file
+    get_chars min, (max) ->
+      write_file java_src_dir + 'Hanzi2Pinyin.java', make_java_main(max), ->
+        console.log 'File was saved: Hanzi2Pinyin.java'
+
+task 'java:compile', 'compile java files and put them into jar', ->
+  tmp_dir = __dirname + '/tmp'
+  jar_file = __dirname + '/cantonese-romanization.jar'
+
+  exec 'mkdir -p "' + tmp_dir + '"', ->
+    require('fs').readdir java_src_dir, (err, files) ->
+      files = files.filter (file) -> /\.java$/.test(file)
+      files = files.map (file) -> java_src_dir + file
+      console.log 'Compiling...'
+      spawn 'javac', ['-d', tmp_dir].concat(files), ->
+        console.log 'Archiving...'
+        spawn 'jar', ['cf', jar_file, '-C', tmp_dir, 'org'], ->
+          exec 'rm -rf "' + tmp_dir + '"', ->
+            console.log 'OK. Jar file is made: ' + jar_file
