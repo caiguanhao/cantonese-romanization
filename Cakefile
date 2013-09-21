@@ -24,36 +24,14 @@ get_cantonese_pinyin = (string, done) ->
 parse_body = (body) -> (/^<span\stitle="(.*)">(.*)<\/span>$/.exec(match) \
   for match in body.match(/^<span\stitle=".*">.*<\/span>$/img) || [])
 
-make_java_source = (list) ->
-  output  = """
-            package org.cghio.cantonese.romanization;
-
-            public class Hanzi2Pinyin {
-
-              /**
-               * Returns Cantonese Pinyin of a Chinese character.
-               * @param character the Chinese character to convert
-               */
-              public static String fromChar(String character) throws java.io.UnsupportedEncodingException {
-                if (character == null || character.isEmpty()) return null;
-
-                byte[] b = character.getBytes();
-                if (b.length < 3) return null;
-
-                return fromChar(new int[]{
-                  Integer.parseInt(String.format("%o", b[0])),
-                  Integer.parseInt(String.format("%o", b[1])),
-                  Integer.parseInt(String.format("%o", b[2]))
-                });
-              }
-
-              /**
-               * Returns Cantonese Pinyin of a Chinese character.
-               * @param octal integer array of the octal values of each byte of a Chinese character
-               */
-              public static String fromChar(int[] octal) {
-            
-            """
+make_java_source = (list, index) ->
+  output  = 'package org.cghio.cantonese.romanization;\n\n'
+  output += 'public class Hanzi2PinyinData' + index + ' {\n\n'
+  output += '  /**\n'
+  output += '   * Returns Cantonese Pinyin of a Chinese character.\n'
+  output += '   * @param octal integer array of the octal values of each byte of a Chinese character\n'
+  output += '   */\n'
+  output += '  public static String fromChar(int[] octal) {\n'
   output += '    switch (octal[0]) {\n'
   for k1, v1 of list
     output += '    case ' + k1 + ':\n'
@@ -86,38 +64,84 @@ spawn = (command, options, next) ->
     if code is 0 then next() else console.log 'Failed: ' + command + ' returns status code ' + code + '.'
 
 task 'make:java', 'make java files and compile to jar', ->
-  start = 19968 # parseInt('4e00', 16)
+  min = 19968 # parseInt('4e00', 16)
   max = 40907 # parseInt('9fcb', 16)
-  step = 10000
-  list = {}
+  step = 8000
 
-  get_chars = ->
+  java_src_dir = __dirname + '/java/src/org/cghio/cantonese/romanization/'
+  tmp_dir = __dirname + '/tmp'
+  jar_file = __dirname + '/cantonese-romanization.jar'
+
+  files = []
+  index = 0
+
+  make_java_main = (max) ->
+    o   = """
+          package org.cghio.cantonese.romanization;
+
+          public class Hanzi2Pinyin {
+
+            /**
+             * Returns Cantonese Pinyin of a Chinese character.
+             * @param character the Chinese character to convert
+             */
+            public static String fromChar(String character) throws java.io.UnsupportedEncodingException {
+              if (character == null || character.isEmpty()) return null;
+
+              byte[] b = character.getBytes();
+              if (b.length < 3) return null;
+
+              return fromChar(new int[]{
+                Integer.parseInt(String.format("%o", b[0])),
+                Integer.parseInt(String.format("%o", b[1])),
+                Integer.parseInt(String.format("%o", b[2]))
+              });
+            }
+
+            /**
+             * Returns Cantonese Pinyin of a Chinese character.
+             * @param octal integer array of the octal values of each byte of a Chinese character
+             */
+            public static String fromChar(int[] octal) {
+              if (octal.length < 3) return null;
+              String pinyin = Hanzi2PinyinData1.fromChar(octal);
+
+          """
+    o += '    if (pinyin == null) pinyin = Hanzi2PinyinData' + num + '.fromChar(octal);\n' for num in [2..max]
+    o += '    return pinyin;\n'
+    o += '  }\n\n'
+    o += '}\n'
+
+  get_chars = (start, finish) ->
+    index += 1
     end = start + step - 1
     if end > max then end = max
     hans = ''
     hans += String.fromCharCode(num) for num in [start..end]
     console.log start, end, hans.length, hans[0], hans[hans.length-1]
     get_cantonese_pinyin hans, (body) ->
+      list = {}
       for entry in parse_body(body)
         oct = string_to_octal_array(entry[2])
         list[oct[0]] = {} unless list.hasOwnProperty(oct[0])
         list[oct[0]][oct[1]] = {} unless list[oct[0]].hasOwnProperty(oct[1])
         list[oct[0]][oct[1]][oct[2]] = { char: entry[2], pinyin: entry[1] }
-      if end < max
-        start += step
-        get_chars()
-      else
-        java_src_dir = __dirname + '/java/src/org/cghio/cantonese/romanization/'
-        tmp_dir = __dirname + '/tmp'
-        jar_file = __dirname + '/cantonese-romanization.jar'
-        exec 'mkdir -p "' + java_src_dir + '"', ->
-          exec 'mkdir -p "' + tmp_dir + '"', ->
-            java_src_file = java_src_dir + 'Hanzi2Pinyin.java'
-            data = make_java_source list
-            write_file java_src_file, data, ->
-              spawn 'javac', ['-d', tmp_dir, java_src_file], ->
-                spawn 'jar', ['cf', jar_file, '-C', tmp_dir, 'org'], ->
-                  exec 'rm -rf "' + tmp_dir + '"', ->
-                    console.log 'OK. Jar file is made: ' + jar_file
+      data = make_java_source list, index
+      file = java_src_dir + 'Hanzi2PinyinData' + index + '.java'
+      write_file file, data, ->
+        files.push file
+        if end < max
+          get_chars start + step, finish
+        else
+          finish index
 
-  get_chars()
+  exec 'mkdir -p "' + java_src_dir + '"', ->
+    exec 'mkdir -p "' + tmp_dir + '"', ->
+      get_chars min, (max) ->
+        file = java_src_dir + 'Hanzi2Pinyin.java'
+        files.push file
+        write_file file, make_java_main(max), ->
+          spawn 'javac', ['-d', tmp_dir].concat(files), ->
+            spawn 'jar', ['cf', jar_file, '-C', tmp_dir, 'org'], ->
+              exec 'rm -rf "' + tmp_dir + '"', ->
+                console.log 'OK. Jar file is made: ' + jar_file
