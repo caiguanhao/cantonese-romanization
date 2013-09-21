@@ -4,6 +4,24 @@ STDOUT = write: (data) ->
 
 string_to_octal_array = (string) -> (b.toString(8) for b in new Buffer(string))
 
+parse_body = (body) -> (/^<span\stitle="(.*)">(.*)<\/span>$/.exec(match) \
+  for match in body.match(/^<span\stitle=".*">.*<\/span>$/img) || [])
+
+write_file = (path, content, next) ->
+  require('fs').writeFile path, content, (error) ->
+    if error then console.log 'Failed: Unable to write to file: ' + path else next()
+
+exec = (command, next) ->
+  child_process.exec command, (error, stdout, stderr) ->
+    if error then console.log 'Failed: Unable to ' + command else next()
+
+spawn = (command, options, next) ->
+  cmd = child_process.spawn command, options
+  cmd.stdout.on 'data', STDOUT.write
+  cmd.stderr.on 'data', STDOUT.write
+  cmd.on 'close', (code) ->
+    if code is 0 then next() else console.log 'Failed: ' + command + ' returns status code ' + code + '.'
+
 get_cantonese_pinyin = (string, done) ->
   http = require 'http'
   query = require('querystring').stringify
@@ -20,48 +38,6 @@ get_cantonese_pinyin = (string, done) ->
     res.on 'data', (data) -> body += data;
     res.on 'end', -> done body
   req.end query
-
-parse_body = (body) -> (/^<span\stitle="(.*)">(.*)<\/span>$/.exec(match) \
-  for match in body.match(/^<span\stitle=".*">.*<\/span>$/img) || [])
-
-make_java_source = (list, index) ->
-  output  = 'package org.cghio.cantonese.romanization;\n\n'
-  output += 'public class Hanzi2PinyinData' + index + ' {\n\n'
-  output += '  /**\n'
-  output += '   * Returns Cantonese Pinyin of a Chinese character.\n'
-  output += '   * @param octal integer array of the octal values of each byte of a Chinese character\n'
-  output += '   */\n'
-  output += '  public static String fromChar(int[] octal) {\n'
-  output += '    switch (octal[0]) {\n'
-  for k1, v1 of list
-    output += '    case ' + k1 + ':\n'
-    output += '      switch (octal[1]) {\n'
-    for k2, v2 of v1
-      output += '      case ' + k2 + ':\n'
-      output += '        switch (octal[2]) {\n'
-      for k3, v3 of v2
-        output += '        case ' + k3 + ': /* ' + v3.char + ' */ return "' + v3.pinyin + '";\n'
-      output += '        }\n'
-    output += '      }\n'
-  output += '    }\n'
-  output += '    return null;\n'
-  output += '  }\n\n'
-  output += '}\n'
-
-write_file = (path, content, next) ->
-  require('fs').writeFile path, content, (error) ->
-    if error then console.log 'Failed: Unable to write to file: ' + path else next()
-
-exec = (command, next) ->
-  child_process.exec command, (error, stdout, stderr) ->
-    if error then console.log 'Failed: Unable to ' + command else next()
-
-spawn = (command, options, next) ->
-  cmd = child_process.spawn command, options
-  cmd.stdout.on 'data', STDOUT.write
-  cmd.stderr.on 'data', STDOUT.write
-  cmd.on 'close', (code) ->
-    if code is 0 then next() else console.log 'Failed: ' + command + ' returns status code ' + code + '.'
 
 task 'make:java', 'make java files and compile to jar', ->
   min = 19968 # parseInt('4e00', 16)
@@ -109,6 +85,30 @@ task 'make:java', 'make java files and compile to jar', ->
           """
     o += '    if (pinyin == null) pinyin = Hanzi2PinyinData' + num + '.fromChar(octal);\n' for num in [2..max]
     o += '    return pinyin;\n'
+    o += '  }\n\n'
+    o += '}\n'
+
+  make_java_source = (list, index) ->
+    o  = 'package org.cghio.cantonese.romanization;\n\n'
+    o += 'public class Hanzi2PinyinData' + index + ' {\n\n'
+    o += '  /**\n'
+    o += '   * Returns Cantonese Pinyin of a Chinese character.\n'
+    o += '   * @param octal integer array of the octal values of each byte of a Chinese character\n'
+    o += '   */\n'
+    o += '  public static String fromChar(int[] octal) {\n'
+    o += '    switch (octal[0]) {\n'
+    for k1, v1 of list
+      o += '    case ' + k1 + ':\n'
+      o += '      switch (octal[1]) {\n'
+      for k2, v2 of v1
+        o += '      case ' + k2 + ':\n'
+        o += '        switch (octal[2]) {\n'
+        for k3, v3 of v2
+          o += '        case ' + k3 + ': /* ' + v3.char + ' */ return "' + v3.pinyin + '";\n'
+        o += '        }\n'
+      o += '      }\n'
+    o += '    }\n'
+    o += '    return null;\n'
     o += '  }\n\n'
     o += '}\n'
 
