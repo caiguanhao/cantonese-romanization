@@ -683,6 +683,7 @@ public class Hanzi2PinyinData2 {
         case 252: /* 瑪 */ return "ma";
         case 255: /* 瑭 */ return "wong";
         case 260: /* 瑰 */ return "gwai";
+        case 266: /* 瑶 */ return "yiu";
         case 267: /* 瑷 */ return "wong";
         case 276: /* 瑾 */ return "wong";
         }
