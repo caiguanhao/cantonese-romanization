@@ -38,6 +38,7 @@ get_cantonese_pinyin = (string, done) ->
     res.on 'data', (data) -> body += data;
     res.on 'end', -> done body
   req.end query
+  console.log 'Sending HTTP request...'
 
 task 'make:java', 'make java files and compile to jar', ->
   min = 19968 # parseInt('4e00', 16)
@@ -118,8 +119,10 @@ task 'make:java', 'make java files and compile to jar', ->
     if end > max then end = max
     hans = ''
     hans += String.fromCharCode(num) for num in [start..end]
-    console.log start, end, hans.length, hans[0], hans[hans.length-1]
+    console.log 'From ' + hans[0] + ' (' + start + '), to ' + hans[hans.length-1] +
+      ' (' + end + '), length = ' + hans.length
     get_cantonese_pinyin hans, (body) ->
+      console.log 'Data received. Making java files...'
       list = {}
       for entry in parse_body(body)
         oct = string_to_octal_array(entry[2])
@@ -129,6 +132,7 @@ task 'make:java', 'make java files and compile to jar', ->
       data = make_java_source list, index
       file = java_src_dir + 'Hanzi2PinyinData' + index + '.java'
       write_file file, data, ->
+        console.log 'File was saved: ' + file.replace(/^.*\//, '')
         files.push file
         if end < max
           get_chars start + step, finish
@@ -141,7 +145,10 @@ task 'make:java', 'make java files and compile to jar', ->
         file = java_src_dir + 'Hanzi2Pinyin.java'
         files.push file
         write_file file, make_java_main(max), ->
+          console.log 'File was saved: ' + file.replace(/^.*\//, '')
+          console.log 'Compiling...'
           spawn 'javac', ['-d', tmp_dir].concat(files), ->
+            console.log 'Archiving...'
             spawn 'jar', ['cf', jar_file, '-C', tmp_dir, 'org'], ->
               exec 'rm -rf "' + tmp_dir + '"', ->
                 console.log 'OK. Jar file is made: ' + jar_file
