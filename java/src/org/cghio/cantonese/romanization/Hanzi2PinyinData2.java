@@ -3329,13 +3329,6 @@ public class Hanzi2PinyinData2 {
         case 272: /* 豺 */ return "chaai";
         }
       }
-    case 357:
-      switch (octal[1]) {
-      case 277:
-        switch (octal[2]) {
-        case 275: /* ��� */ return "si";
-        }
-      }
     }
     return null;
   }

@@ -121,6 +121,8 @@ task 'java:make', 'make java files', ->
       console.log 'Data received. Making java files...'
       list = {}
       for entry in parse_body(body)
+        code = entry[2].charCodeAt()
+        continue if max < code or code < min
         oct = string_to_octal_array(entry[2])
         list[oct[0]] = {} unless list.hasOwnProperty(oct[0])
         list[oct[0]][oct[1]] = {} unless list[oct[0]].hasOwnProperty(oct[1])

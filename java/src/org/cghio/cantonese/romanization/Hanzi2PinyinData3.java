@@ -2292,13 +2292,6 @@ public class Hanzi2PinyinData3 {
         case 240: /* 龠 */ return "yeuk";
         }
       }
-    case 357:
-      switch (octal[1]) {
-      case 277:
-        switch (octal[2]) {
-        case 275: /* ��� */ return "biu";
-        }
-      }
     }
     return null;
   }

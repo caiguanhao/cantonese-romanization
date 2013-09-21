@@ -1824,6 +1824,7 @@ public class Hanzi2PinyinData1 {
         case 257: /* 屯 */ return "tuen";
         case 261: /* 山 */ return "saan";
         case 271: /* 屹 */ return "ngat";
+        case 272: /* 屺 */ return "saan";
         case 277: /* 屿 */ return "jui/yue";
         }
       case 262:
@@ -3703,13 +3704,6 @@ public class Hanzi2PinyinData1 {
         case 274: /* 洼 */ return "ding/wa";
         case 275: /* 洽 */ return "hap";
         case 276: /* 派 */ return "paai";
-        }
-      }
-    case 357:
-      switch (octal[1]) {
-      case 277:
-        switch (octal[2]) {
-        case 275: /* ��� */ return "kei";
         }
       }
     }
