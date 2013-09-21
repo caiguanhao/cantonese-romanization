@@ -1763,6 +1763,7 @@ public class Hanzi2PinyinData1 {
         case 272: /* 寺 */ return "ji";
         case 273: /* 寻 */ return "cham";
         case 274: /* 导 */ return "do";
+        case 277: /* 寿 */ return "sau";
         }
       case 260:
         switch (octal[2]) {
