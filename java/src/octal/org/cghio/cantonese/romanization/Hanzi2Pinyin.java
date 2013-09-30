@@ -27,7 +27,6 @@ public class Hanzi2Pinyin {
     if (octal.length < 3) return null;
     String pinyin = Hanzi2PinyinData1.fromChar(octal);
     if (pinyin == null) pinyin = Hanzi2PinyinData2.fromChar(octal);
-    if (pinyin == null) pinyin = Hanzi2PinyinData3.fromChar(octal);
     return pinyin;
   }
 

@@ -1763,7 +1763,6 @@ public class Hanzi2PinyinData1 {
         case 272: /* 寺 */ return "ji";
         case 273: /* 寻 */ return "cham";
         case 274: /* 导 */ return "do";
-        case 277: /* 寿 */ return "sau";
         }
       case 260:
         switch (octal[2]) {
@@ -1825,7 +1824,6 @@ public class Hanzi2PinyinData1 {
         case 257: /* 屯 */ return "tuen";
         case 261: /* 山 */ return "saan";
         case 271: /* 屹 */ return "ngat";
-        case 272: /* 屺 */ return "saan";
         case 277: /* 屿 */ return "jui/yue";
         }
       case 262:
@@ -2003,7 +2001,6 @@ public class Hanzi2PinyinData1 {
         case 200: /* 幀 */ return "jing";
         case 202: /* 幂 */ return "maan/mok";
         case 203: /* 幃 */ return "gan";
-        case 204: /* 幄 */ return "gan";
         case 205: /* 幅 */ return "fuk";
         case 214: /* 幌 */ return "fong";
         case 224: /* 幔 */ return "gan";
@@ -2330,7 +2327,6 @@ public class Hanzi2PinyinData1 {
         case 257: /* 惯 */ return "gwaan";
         case 260: /* 惰 */ return "doh";
         case 261: /* 惱 */ return "no";
-        case 262: /* 惲 */ return "sam";
         case 263: /* 想 */ return "seung";
         case 264: /* 惴 */ return "sam";
         case 266: /* 惶 */ return "wong";
@@ -3705,6 +3701,1021 @@ public class Hanzi2PinyinData1 {
         case 274: /* 洼 */ return "ding/wa";
         case 275: /* 洽 */ return "hap";
         case 276: /* 派 */ return "paai";
+        }
+      case 265:
+        switch (octal[2]) {
+        case 201: /* 流 */ return "lau";
+        case 205: /* 浅 */ return "chin";
+        case 206: /* 浆 */ return "jeung";
+        case 207: /* 浇 */ return "hiu";
+        case 212: /* 浊 */ return "juk";
+        case 213: /* 测 */ return "chaak";
+        case 216: /* 济 */ return "jai";
+        case 221: /* 浑 */ return "wan";
+        case 222: /* 浒 */ return "woo";
+        case 223: /* 浓 */ return "nung";
+        case 224: /* 浔 */ return "cham";
+        case 231: /* 浙 */ return "jit";
+        case 232: /* 浚 */ return "jun";
+        case 246: /* 浦 */ return "po";
+        case 251: /* 浩 */ return "ho";
+        case 252: /* 浪 */ return "long";
+        case 256: /* 浮 */ return "fau";
+        case 264: /* 浴 */ return "yuk";
+        case 267: /* 海 */ return "hoi";
+        case 270: /* 浸 */ return "jam";
+        }
+      case 266:
+        switch (octal[2]) {
+        case 202: /* 涂 */ return "to";
+        case 205: /* 涅 */ return "nip";
+        case 210: /* 消 */ return "siu";
+        case 211: /* 涉 */ return "sip";
+        case 214: /* 涌 */ return "yung";
+        case 216: /* 涎 */ return "yin";
+        case 223: /* 涓 */ return "guen";
+        case 225: /* 涕 */ return "tai";
+        case 233: /* 涛 */ return "to";
+        case 235: /* 涝 */ return "lo";
+        case 237: /* 涟 */ return "lin";
+        case 241: /* 涡 */ return "woh";
+        case 243: /* 涣 */ return "woon";
+        case 244: /* 涤 */ return "dik";
+        case 246: /* 润 */ return "yun";
+        case 247: /* 涧 */ return "gaan";
+        case 250: /* 涨 */ return "jeung";
+        case 251: /* 涩 */ return "sap";
+        case 252: /* 涪 */ return "fau";
+        case 257: /* 涯 */ return "ngaai";
+        case 262: /* 液 */ return "yik";
+        case 265: /* 涵 */ return "haam";
+        case 270: /* 涸 */ return "kok";
+        case 274: /* 涼 */ return "leung";
+        }
+      case 267:
+        switch (octal[2]) {
+        case 200: /* 淀 */ return "din";
+        case 204: /* 淄 */ return "ji";
+        case 206: /* 淆 */ return "ngaau";
+        case 213: /* 淋 */ return "lam";
+        case 214: /* 淌 */ return "tong";
+        case 221: /* 淑 */ return "suk";
+        case 222: /* 淒 */ return "chai";
+        case 226: /* 淖 */ return "naau";
+        case 230: /* 淘 */ return "to";
+        case 232: /* 淚 */ return "lui";
+        case 235: /* 淝 */ return "fei";
+        case 241: /* 淡 */ return "daam";
+        case 244: /* 淤 */ return "yue";
+        case 250: /* 淨 */ return "jeng";
+        case 252: /* 淪 */ return "lun";
+        case 253: /* 淫 */ return "yam";
+        case 254: /* 淬 */ return "sui";
+        case 256: /* 淮 */ return "waai";
+        case 261: /* 深 */ return "sam";
+        case 263: /* 淳 */ return "sun";
+        case 265: /* 淵 */ return "yuen";
+        case 267: /* 混 */ return "wan";
+        case 271: /* 淹 */ return "yim";
+        case 273: /* 添 */ return "tim";
+        case 274: /* 淼 */ return "miu";
+        }
+      case 270:
+        switch (octal[2]) {
+        case 205: /* 清 */ return "ching";
+        case 212: /* 渊 */ return "yuen";
+        case 215: /* 渍 */ return "jik";
+        case 220: /* 渐 */ return "jim";
+        case 224: /* 渔 */ return "yue";
+        case 227: /* 渗 */ return "sam";
+        case 231: /* 渙 */ return "woon";
+        case 233: /* 減 */ return "gaam";
+        case 235: /* 渝 */ return "yue";
+        case 240: /* 渠 */ return "kui";
+        case 241: /* 渡 */ return "do";
+        case 243: /* 渣 */ return "ja";
+        case 244: /* 渤 */ return "boot";
+        case 245: /* 渥 */ return "uk";
+        case 246: /* 渦 */ return "woh";
+        case 251: /* 温 */ return "wan";
+        case 254: /* 測 */ return "chaak";
+        case 255: /* 渭 */ return "wai";
+        case 257: /* 港 */ return "gong";
+        case 264: /* 渴 */ return "hot";
+        case 270: /* 游 */ return "yau";
+        case 272: /* 渺 */ return "miu";
+        case 276: /* 渾 */ return "wan";
+        }
+      case 271:
+        switch (octal[2]) {
+        case 203: /* 湃 */ return "baai";
+        case 212: /* 湊 */ return "chau/chau#";
+        case 215: /* 湍 */ return "chuen";
+        case 226: /* 湖 */ return "woo";
+        case 230: /* 湘 */ return "seung";
+        case 233: /* 湛 */ return "jaam";
+        case 247: /* 湧 */ return "yung";
+        case 256: /* 湮 */ return "yin";
+        case 257: /* 湯 */ return "tong";
+        case 276: /* 湾 */ return "waan";
+        case 277: /* 湿 */ return "sap";
+        }
+      case 272:
+        switch (octal[2]) {
+        case 203: /* 溃 */ return "kooi";
+        case 205: /* 溅 */ return "chin/jin";
+        case 211: /* 溉 */ return "koi";
+        case 220: /* 源 */ return "yuen";
+        case 226: /* 準 */ return "jun";
+        case 234: /* 溜 */ return "lau";
+        case 235: /* 溝 */ return "kau";
+        case 242: /* 溢 */ return "yat";
+        case 245: /* 溥 */ return "po";
+        case 252: /* 溪 */ return "kai";
+        case 253: /* 溫 */ return "wan";
+        case 257: /* 溯 */ return "so/sue";
+        case 266: /* 溶 */ return "yung";
+        case 272: /* 溺 */ return "nik";
+        }
+      case 273:
+        switch (octal[2]) {
+        case 201: /* 滁 */ return "chui";
+        case 202: /* 滂 */ return "pong";
+        case 204: /* 滄 */ return "chong";
+        case 205: /* 滅 */ return "mit";
+        case 207: /* 滇 */ return "tin";
+        case 213: /* 滋 */ return "ji";
+        case 214: /* 滌 */ return "dik";
+        case 221: /* 滑 */ return "waat";
+        case 223: /* 滓 */ return "joi";
+        case 224: /* 滔 */ return "to";
+        case 225: /* 滕 */ return "tang";
+        case 232: /* 滚 */ return "gwan";
+        case 236: /* 滞 */ return "jai";
+        case 241: /* 满 */ return "moon";
+        case 244: /* 滤 */ return "lui";
+        case 245: /* 滥 */ return "laam";
+        case 246: /* 滦 */ return "luen";
+        case 250: /* 滨 */ return "ban";
+        case 251: /* 滩 */ return "taan";
+        case 254: /* 滬 */ return "woo";
+        case 257: /* 滯 */ return "jai";
+        case 262: /* 滲 */ return "sam";
+        case 264: /* 滴 */ return "dik";
+        case 270: /* 滸 */ return "woo";
+        case 276: /* 滾 */ return "gwan";
+        case 277: /* 滿 */ return "moon";
+        }
+      case 274:
+        switch (octal[2]) {
+        case 201: /* 漁 */ return "yue";
+        case 202: /* 漂 */ return "piu";
+        case 206: /* 漆 */ return "chat";
+        case 217: /* 漏 */ return "lau";
+        case 223: /* 漓 */ return "lei";
+        case 224: /* 演 */ return "yin";
+        case 232: /* 漚 */ return "au";
+        case 240: /* 漠 */ return "mok";
+        case 242: /* 漢 */ return "hon";
+        case 243: /* 漣 */ return "lin";
+        case 252: /* 漪 */ return "yi";
+        case 253: /* 漫 */ return "maan";
+        case 254: /* 漬 */ return "jik";
+        case 261: /* 漱 */ return "sau";
+        case 262: /* 漲 */ return "jeung";
+        case 263: /* 漳 */ return "jeung";
+        case 270: /* 漸 */ return "jim";
+        case 276: /* 漾 */ return "yeung";
+        case 277: /* 漿 */ return "jeung/mei";
+        }
+      case 275:
+        switch (octal[2]) {
+        case 215: /* 潍 */ return "wai";
+        case 221: /* 潑 */ return "poot";
+        case 224: /* 潔 */ return "git";
+        case 230: /* 潘 */ return "poon";
+        case 233: /* 潛 */ return "chim";
+        case 234: /* 潜 */ return "chim";
+        case 236: /* 潞 */ return "lo";
+        case 237: /* 潟 */ return "sik";
+        case 244: /* 潤 */ return "yun";
+        case 246: /* 潦 */ return "loh";
+        case 255: /* 潭 */ return "taam";
+        case 256: /* 潮 */ return "chiu";
+        case 257: /* 潯 */ return "cham";
+        case 260: /* 潰 */ return "kooi";
+        case 272: /* 潺 */ return "saan";
+        }
+      case 276:
+        switch (octal[2]) {
+        case 200: /* 澀 */ return "sap";
+        case 204: /* 澄 */ return "ching";
+        case 206: /* 澆 */ return "hiu";
+        case 207: /* 澇 */ return "lo";
+        case 210: /* 澈 */ return "chit";
+        case 216: /* 澎 */ return "paang";
+        case 227: /* 澗 */ return "gaan";
+        case 234: /* 澜 */ return "laan";
+        case 241: /* 澡 */ return "cho";
+        case 244: /* 澤 */ return "jaak";
+        case 261: /* 澱 */ return "din";
+        case 263: /* 澳 */ return "o";
+        }
+      case 277:
+        switch (octal[2]) {
+        case 200: /* 激 */ return "gik";
+        case 201: /* 濁 */ return "juk";
+        case 203: /* 濃 */ return "nung";
+        case 222: /* 濒 */ return "pan";
+        case 225: /* 濕 */ return "sap";
+        case 230: /* 濘 */ return "ning";
+        case 237: /* 濟 */ return "jai";
+        case 244: /* 濤 */ return "to";
+        case 253: /* 濫 */ return "laam";
+        case 254: /* 濬 */ return "jun";
+        case 260: /* 濰 */ return "wai";
+        case 261: /* 濱 */ return "ban";
+        case 272: /* 濺 */ return "chin/jin";
+        case 276: /* 濾 */ return "lui";
+        }
+      }
+    case 347:
+      switch (octal[1]) {
+      case 200:
+        switch (octal[2]) {
+        case 211: /* 瀉 */ return "se";
+        case 221: /* 瀑 */ return "buk";
+        case 225: /* 瀕 */ return "pan";
+        case 232: /* 瀚 */ return "hon";
+        case 233: /* 瀛 */ return "ying";
+        case 235: /* 瀝 */ return "lik";
+        case 250: /* 瀨 */ return "laai";
+        case 276: /* 瀾 */ return "laan";
+        }
+      case 201:
+        switch (octal[2]) {
+        case 214: /* 灌 */ return "goon";
+        case 230: /* 灘 */ return "taan";
+        case 243: /* 灣 */ return "waan";
+        case 244: /* 灤 */ return "luen";
+        case 253: /* 火 */ return "foh";
+        case 255: /* 灭 */ return "mit";
+        case 257: /* 灯 */ return "dang";
+        case 260: /* 灰 */ return "fooi";
+        case 265: /* 灵 */ return "ling";
+        case 266: /* 灶 */ return "jo";
+        case 270: /* 灸 */ return "gau";
+        case 274: /* 灼 */ return "cheuk";
+        case 275: /* 災 */ return "joi";
+        case 276: /* 灾 */ return "joi";
+        case 277: /* 灿 */ return "chaan";
+        }
+      case 202:
+        switch (octal[2]) {
+        case 200: /* 炀 */ return "foh";
+        case 205: /* 炅 */ return "yat";
+        case 211: /* 炉 */ return "lo";
+        case 212: /* 炊 */ return "chui";
+        case 216: /* 炎 */ return "yim";
+        case 222: /* 炒 */ return "chaau";
+        case 224: /* 炔 */ return "kuet";
+        case 225: /* 炕 */ return "kong";
+        case 226: /* 炖 */ return "foh";
+        case 231: /* 炙 */ return "jek";
+        case 234: /* 炜 */ return "foh";
+        case 235: /* 炝 */ return "foh";
+        case 253: /* 炫 */ return "foh";
+        case 254: /* 炬 */ return "gui";
+        case 255: /* 炭 */ return "taan";
+        case 256: /* 炮 */ return "paau";
+        case 257: /* 炯 */ return "gwing";
+        case 261: /* 炱 */ return "foh";
+        case 263: /* 炳 */ return "bing";
+        case 267: /* 炷 */ return "foh";
+        case 270: /* 炸 */ return "ja";
+        case 271: /* 点 */ return "dim";
+        case 272: /* 為 */ return "wai";
+        case 273: /* 炻 */ return "foh";
+        case 274: /* 炼 */ return "lin";
+        case 275: /* 炽 */ return "chi";
+        }
+      case 203:
+        switch (octal[2]) {
+        case 200: /* 烀 */ return "foh";
+        case 201: /* 烁 */ return "lok";
+        case 202: /* 烂 */ return "laan";
+        case 203: /* 烃 */ return "ting";
+        case 210: /* 烈 */ return "lit";
+        case 212: /* 烊 */ return "foh";
+        case 217: /* 烏 */ return "woo";
+        case 230: /* 烘 */ return "hung";
+        case 231: /* 烙 */ return "lok";
+        case 233: /* 烛 */ return "juk";
+        case 237: /* 烟 */ return "yin";
+        case 244: /* 烤 */ return "haau";
+        case 246: /* 烦 */ return "faan";
+        case 247: /* 烧 */ return "siu";
+        case 250: /* 烨 */ return "foh";
+        case 251: /* 烩 */ return "kooi";
+        case 253: /* 烫 */ return "tong";
+        case 254: /* 烬 */ return "jun";
+        case 255: /* 热 */ return "yit";
+        case 257: /* 烯 */ return "hei";
+        case 264: /* 烴 */ return "ting";
+        case 267: /* 烷 */ return "yuen";
+        case 271: /* 烹 */ return "paang";
+        case 275: /* 烽 */ return "fung";
+        }
+      case 204:
+        switch (octal[2]) {
+        case 211: /* 焉 */ return "yin";
+        case 212: /* 焊 */ return "hon";
+        case 220: /* 焐 */ return "foh";
+        case 223: /* 焓 */ return "foh";
+        case 225: /* 焕 */ return "woon";
+        case 226: /* 焖 */ return "foh";
+        case 227: /* 焗 */ return "guk";
+        case 230: /* 焘 */ return "to";
+        case 231: /* 焙 */ return "booi";
+        case 232: /* 焚 */ return "fan";
+        case 241: /* 無 */ return "mo";
+        case 246: /* 焦 */ return "jiu";
+        case 257: /* 焯 */ return "foh";
+        case 260: /* 焰 */ return "yim";
+        case 261: /* 焱 */ return "foh";
+        case 266: /* 然 */ return "yin";
+        }
+      case 205:
+        switch (octal[2]) {
+        case 205: /* 煅 */ return "foh";
+        case 211: /* 煉 */ return "lin";
+        case 212: /* 煊 */ return "foh";
+        case 214: /* 煌 */ return "wong";
+        case 216: /* 煎 */ return "jin";
+        case 222: /* 煒 */ return "foh";
+        case 231: /* 煙 */ return "yin";
+        case 234: /* 煜 */ return "foh";
+        case 236: /* 煞 */ return "saat";
+        case 244: /* 煤 */ return "mooi";
+        case 245: /* 煥 */ return "woon";
+        case 246: /* 煦 */ return "hui";
+        case 247: /* 照 */ return "jiu";
+        case 250: /* 煨 */ return "foh";
+        case 251: /* 煩 */ return "faan";
+        case 254: /* 煬 */ return "foh";
+        case 256: /* 煮 */ return "jue";
+        case 262: /* 煲 */ return "bo";
+        case 263: /* 煳 */ return "foh";
+        case 270: /* 煸 */ return "foh";
+        case 272: /* 煺 */ return "foh";
+        case 275: /* 煽 */ return "sin";
+        }
+      case 206:
+        switch (octal[2]) {
+        case 204: /* 熄 */ return "sik";
+        case 212: /* 熊 */ return "hung";
+        case 217: /* 熏 */ return "fan";
+        case 222: /* 熒 */ return "ying";
+        case 224: /* 熔 */ return "yung";
+        case 230: /* 熘 */ return "foh";
+        case 231: /* 熙 */ return "hei";
+        case 237: /* 熟 */ return "suk";
+        case 240: /* 熠 */ return "foh";
+        case 250: /* 熨 */ return "tong";
+        case 254: /* 熬 */ return "ngo";
+        case 261: /* 熱 */ return "yit";
+        case 263: /* 熳 */ return "foh";
+        case 265: /* 熵 */ return "seung";
+        case 271: /* 熹 */ return "hei";
+        case 276: /* 熾 */ return "chi";
+        }
+      case 207:
+        switch (octal[2]) {
+        case 201: /* 燁 */ return "foh";
+        case 203: /* 燃 */ return "yin";
+        case 204: /* 燄 */ return "yim";
+        case 210: /* 燈 */ return "dang";
+        case 211: /* 燉 */ return "foh";
+        case 216: /* 燎 */ return "liu";
+        case 222: /* 燒 */ return "siu";
+        case 224: /* 燔 */ return "foh";
+        case 225: /* 燕 */ return "yin";
+        case 231: /* 燙 */ return "tong";
+        case 234: /* 燜 */ return "foh";
+        case 237: /* 營 */ return "ying";
+        case 240: /* 燠 */ return "foh";
+        case 245: /* 燥 */ return "cho";
+        case 246: /* 燦 */ return "chaan";
+        case 247: /* 燧 */ return "foh";
+        case 255: /* 燭 */ return "juk";
+        case 264: /* 燴 */ return "kooi";
+        case 271: /* 燹 */ return "foh";
+        case 274: /* 燼 */ return "jun";
+        case 276: /* 燾 */ return "to";
+        }
+      case 210:
+        switch (octal[2]) {
+        case 206: /* 爆 */ return "baau";
+        case 215: /* 爍 */ return "lok";
+        case 220: /* 爐 */ return "lo";
+        case 233: /* 爛 */ return "laan";
+        case 235: /* 爝 */ return "foh";
+        case 250: /* 爨 */ return "foh";
+        case 252: /* 爪 */ return "jaau";
+        case 254: /* 爬 */ return "pa";
+        case 255: /* 爭 */ return "jaang";
+        case 260: /* 爰 */ return "yuen";
+        case 261: /* 爱 */ return "oi";
+        case 265: /* 爵 */ return "jeuk";
+        case 266: /* 父 */ return "foo";
+        case 267: /* 爷 */ return "ye";
+        case 270: /* 爸 */ return "ba";
+        case 271: /* 爹 */ return "de";
+        case 272: /* 爺 */ return "ye";
+        case 273: /* 爻 */ return "ngaau";
+        case 275: /* 爽 */ return "song";
+        case 276: /* 爾 */ return "yi";
+        case 277: /* 爿 */ return "baan/sam";
+        }
+      case 211:
+        switch (octal[2]) {
+        case 206: /* 牆 */ return "cheung";
+        case 207: /* 片 */ return "pin";
+        case 210: /* 版 */ return "baan";
+        case 214: /* 牌 */ return "paai";
+        case 215: /* 牍 */ return "duk";
+        case 222: /* 牒 */ return "dip";
+        case 226: /* 牖 */ return "yau";
+        case 230: /* 牘 */ return "duk";
+        case 231: /* 牙 */ return "nga";
+        case 233: /* 牛 */ return "ngau";
+        case 235: /* 牝 */ return "ngau";
+        case 237: /* 牟 */ return "mau";
+        case 241: /* 牡 */ return "maau";
+        case 242: /* 牢 */ return "lo";
+        case 246: /* 牦 */ return "ngau";
+        case 247: /* 牧 */ return "muk";
+        case 251: /* 物 */ return "mat";
+        case 256: /* 牮 */ return "ngau";
+        case 257: /* 牯 */ return "ngau";
+        case 262: /* 牲 */ return "sang";
+        case 265: /* 牵 */ return "hin";
+        case 271: /* 特 */ return "dak";
+        case 272: /* 牺 */ return "hei";
+        case 275: /* 牽 */ return "hin";
+        case 276: /* 牾 */ return "ngau";
+        case 277: /* 牿 */ return "ngau";
+        }
+      case 212:
+        switch (octal[2]) {
+        case 200: /* 犀 */ return "sai";
+        case 201: /* 犁 */ return "lai";
+        case 204: /* 犄 */ return "ngau";
+        case 212: /* 犊 */ return "duk";
+        case 213: /* 犋 */ return "ngau";
+        case 215: /* 犍 */ return "ngau";
+        case 217: /* 犏 */ return "ngau";
+        case 222: /* 犒 */ return "ngau";
+        case 237: /* 犟 */ return "ngau";
+        case 242: /* 犢 */ return "duk";
+        case 247: /* 犧 */ return "hei";
+        case 254: /* 犬 */ return "huen";
+        case 257: /* 犯 */ return "faan";
+        case 260: /* 犰 */ return "gau";
+        case 264: /* 犴 */ return "gau";
+        case 266: /* 状 */ return "jong";
+        case 267: /* 犷 */ return "gau";
+        case 270: /* 犸 */ return "gau";
+        case 271: /* 犹 */ return "yau";
+        }
+      case 213:
+        switch (octal[2]) {
+        case 200: /* 狀 */ return "jong";
+        case 201: /* 狁 */ return "gau";
+        case 202: /* 狂 */ return "kong";
+        case 203: /* 狃 */ return "gau";
+        case 204: /* 狄 */ return "dik";
+        case 210: /* 狈 */ return "booi";
+        case 215: /* 狍 */ return "gau";
+        case 216: /* 狎 */ return "gau";
+        case 220: /* 狐 */ return "woo";
+        case 222: /* 狒 */ return "gau";
+        case 227: /* 狗 */ return "gau";
+        case 231: /* 狙 */ return "jui";
+        case 236: /* 狞 */ return "ning";
+        case 240: /* 狠 */ return "han";
+        case 241: /* 狡 */ return "gaau";
+        case 250: /* 狨 */ return "gau";
+        case 251: /* 狩 */ return "sau";
+        case 254: /* 独 */ return "duk";
+        case 255: /* 狭 */ return "haap";
+        case 256: /* 狮 */ return "si";
+        case 257: /* 狯 */ return "gau";
+        case 260: /* 狰 */ return "jaang";
+        case 261: /* 狱 */ return "yuk";
+        case 262: /* 狲 */ return "gau";
+        case 263: /* 狳 */ return "gau";
+        case 264: /* 狴 */ return "gau";
+        case 267: /* 狷 */ return "gau";
+        case 270: /* 狸 */ return "lei";
+        case 271: /* 狹 */ return "haap";
+        case 272: /* 狺 */ return "gau";
+        case 273: /* 狻 */ return "gau";
+        case 274: /* 狼 */ return "long";
+        case 275: /* 狽 */ return "booi";
+        }
+      case 214:
+        switch (octal[2]) {
+        case 201: /* 猁 */ return "gau";
+        case 203: /* 猃 */ return "gau";
+        case 212: /* 猊 */ return "gau";
+        case 216: /* 猎 */ return "lip";
+        case 223: /* 猓 */ return "gau";
+        case 225: /* 猕 */ return "gau";
+        case 226: /* 猖 */ return "cheung";
+        case 227: /* 猗 */ return "gau";
+        case 231: /* 猙 */ return "jaang";
+        case 233: /* 猛 */ return "maang";
+        case 234: /* 猜 */ return "chaai";
+        case 235: /* 猝 */ return "gau";
+        case 236: /* 猞 */ return "gau";
+        case 241: /* 猡 */ return "gau";
+        case 242: /* 猢 */ return "woo";
+        case 245: /* 猥 */ return "gau";
+        case 251: /* 猩 */ return "sing";
+        case 252: /* 猪 */ return "jue";
+        case 253: /* 猫 */ return "maau";
+        case 254: /* 猬 */ return "gau";
+        case 256: /* 献 */ return "hin";
+        case 261: /* 猱 */ return "gau";
+        case 264: /* 猴 */ return "hau";
+        case 266: /* 猶 */ return "yau";
+        case 267: /* 猷 */ return "yau";
+        case 270: /* 猸 */ return "gau";
+        case 271: /* 猹 */ return "gau";
+        case 273: /* 猻 */ return "gau";
+        case 276: /* 猾 */ return "waat";
+        case 277: /* 猿 */ return "yuen";
+        }
+      case 215:
+        switch (octal[2]) {
+        case 204: /* 獄 */ return "yuk";
+        case 205: /* 獅 */ return "si";
+        case 215: /* 獍 */ return "gau";
+        case 216: /* 獎 */ return "jeung";
+        case 220: /* 獐 */ return "gau";
+        case 222: /* 獒 */ return "muk";
+        case 227: /* 獗 */ return "gau";
+        case 240: /* 獠 */ return "gau";
+        case 250: /* 獨 */ return "duk";
+        case 252: /* 獪 */ return "gau";
+        case 253: /* 獫 */ return "gau";
+        case 254: /* 獬 */ return "gau";
+        case 255: /* 獭 */ return "chaat";
+        case 257: /* 獯 */ return "gau";
+        case 260: /* 獰 */ return "ning";
+        case 262: /* 獲 */ return "wok";
+        case 265: /* 獵 */ return "lip";
+        case 267: /* 獷 */ return "gau";
+        case 270: /* 獸 */ return "sau";
+        case 272: /* 獺 */ return "chaat";
+        case 273: /* 獻 */ return "hin";
+        case 274: /* 獼 */ return "gau";
+        case 276: /* 獾 */ return "gau";
+        }
+      case 216:
+        switch (octal[2]) {
+        case 200: /* 玀 */ return "gau";
+        case 204: /* 玄 */ return "yuen";
+        case 207: /* 率 */ return "lut";
+        case 211: /* 玉 */ return "yuk";
+        case 213: /* 王 */ return "wong";
+        case 216: /* 玎 */ return "wong";
+        case 221: /* 玑 */ return "wong";
+        case 226: /* 玖 */ return "gau";
+        case 233: /* 玛 */ return "ma";
+        case 237: /* 玟 */ return "wong";
+        case 242: /* 玢 */ return "wong";
+        case 250: /* 玨 */ return "gok";
+        case 251: /* 玩 */ return "waan/woon";
+        case 253: /* 玫 */ return "mooi";
+        case 256: /* 玮 */ return "wong";
+        case 257: /* 环 */ return "waan";
+        case 260: /* 现 */ return "yin";
+        case 262: /* 玲 */ return "ling";
+        case 263: /* 玳 */ return "wong";
+        case 267: /* 玷 */ return "wong";
+        case 272: /* 玺 */ return "saai";
+        case 273: /* 玻 */ return "boh";
+        }
+      case 217:
+        switch (octal[2]) {
+        case 200: /* 珀 */ return "paak";
+        case 202: /* 珂 */ return "wong";
+        case 210: /* 珈 */ return "wong";
+        case 211: /* 珉 */ return "wong";
+        case 212: /* 珊 */ return "saan";
+        case 215: /* 珍 */ return "jan";
+        case 217: /* 珏 */ return "gok";
+        case 220: /* 珐 */ return "faat";
+        case 221: /* 珑 */ return "lung";
+        case 231: /* 珙 */ return "wong";
+        case 236: /* 珞 */ return "wong";
+        case 240: /* 珠 */ return "jue";
+        case 245: /* 珥 */ return "wong";
+        case 247: /* 珧 */ return "wong";
+        case 251: /* 珩 */ return "wong";
+        case 255: /* 班 */ return "baan";
+        case 262: /* 珲 */ return "wong";
+        case 276: /* 現 */ return "yin";
+        }
+      case 220:
+        switch (octal[2]) {
+        case 203: /* 球 */ return "kau";
+        case 205: /* 琅 */ return "long";
+        case 206: /* 理 */ return "lei";
+        case 211: /* 琉 */ return "lau";
+        case 212: /* 琊 */ return "wong";
+        case 217: /* 琏 */ return "wong";
+        case 220: /* 琐 */ return "soh";
+        case 232: /* 琚 */ return "wong";
+        case 233: /* 琛 */ return "wong";
+        case 242: /* 琢 */ return "deuk";
+        case 245: /* 琥 */ return "wong";
+        case 246: /* 琦 */ return "wong";
+        case 250: /* 琨 */ return "wong";
+        case 252: /* 琪 */ return "kei";
+        case 254: /* 琬 */ return "wong";
+        case 256: /* 琮 */ return "wong";
+        case 260: /* 琰 */ return "wong";
+        case 263: /* 琳 */ return "lam";
+        case 264: /* 琴 */ return "kam";
+        case 265: /* 琵 */ return "pei";
+        case 266: /* 琶 */ return "pa";
+        case 272: /* 琺 */ return "faat";
+        case 274: /* 琼 */ return "king";
+        case 277: /* 琿 */ return "wong";
+        }
+      case 221:
+        switch (octal[2]) {
+        case 201: /* 瑁 */ return "wong";
+        case 204: /* 瑄 */ return "suen";
+        case 213: /* 瑋 */ return "wong";
+        case 225: /* 瑕 */ return "ha";
+        case 227: /* 瑗 */ return "wong";
+        case 231: /* 瑙 */ return "wong";
+        case 232: /* 瑚 */ return "woo";
+        case 233: /* 瑛 */ return "wong";
+        case 234: /* 瑜 */ return "wong";
+        case 236: /* 瑞 */ return "sui";
+        case 237: /* 瑟 */ return "sat";
+        case 243: /* 瑣 */ return "soh";
+        case 244: /* 瑤 */ return "yiu";
+        case 251: /* 瑩 */ return "ying";
+        case 252: /* 瑪 */ return "ma";
+        case 255: /* 瑭 */ return "wong";
+        case 260: /* 瑰 */ return "gwai";
+        case 267: /* 瑷 */ return "wong";
+        case 276: /* 瑾 */ return "wong";
+        }
+      case 222:
+        switch (octal[2]) {
+        case 200: /* 璀 */ return "wong";
+        case 201: /* 璁 */ return "wong";
+        case 203: /* 璃 */ return "lei";
+        case 207: /* 璇 */ return "suen/wong";
+        case 211: /* 璉 */ return "wong";
+        case 213: /* 璋 */ return "wong";
+        case 216: /* 璎 */ return "wong";
+        case 220: /* 璐 */ return "wong";
+        case 234: /* 璜 */ return "wong";
+        case 236: /* 璞 */ return "wong";
+        case 243: /* 璣 */ return "wong";
+        case 246: /* 璦 */ return "wong";
+        case 247: /* 璧 */ return "bik";
+        case 250: /* 璨 */ return "wong";
+        case 251: /* 璩 */ return "wong";
+        case 260: /* 環 */ return "waan";
+        case 272: /* 璺 */ return "man";
+        case 275: /* 璽 */ return "saai";
+        }
+      case 223:
+        switch (octal[2]) {
+        case 212: /* 瓊 */ return "king";
+        case 217: /* 瓏 */ return "lung";
+        case 222: /* 瓒 */ return "wong";
+        case 224: /* 瓔 */ return "wong";
+        case 232: /* 瓚 */ return "wong";
+        case 234: /* 瓜 */ return "gwa";
+        case 236: /* 瓞 */ return "dit";
+        case 240: /* 瓠 */ return "woo";
+        case 242: /* 瓢 */ return "piu";
+        case 243: /* 瓣 */ return "faan";
+        case 244: /* 瓤 */ return "nong";
+        case 246: /* 瓦 */ return "nga";
+        case 256: /* 瓮 */ return "ngung";
+        case 257: /* 瓯 */ return "nga";
+        case 264: /* 瓴 */ return "nga";
+        case 266: /* 瓶 */ return "ping";
+        case 267: /* 瓷 */ return "chi";
+        case 277: /* 瓿 */ return "nga";
+        }
+      case 224:
+        switch (octal[2]) {
+        case 204: /* 甄 */ return "yan";
+        case 214: /* 甌 */ return "nga";
+        case 217: /* 甏 */ return "nga";
+        case 221: /* 甑 */ return "nga";
+        case 223: /* 甓 */ return "nga";
+        case 225: /* 甕 */ return "ngung";
+        case 230: /* 甘 */ return "gam";
+        case 232: /* 甚 */ return "sam";
+        case 234: /* 甜 */ return "tim";
+        case 237: /* 生 */ return "saang/sang";
+        case 242: /* 產 */ return "chaan";
+        case 245: /* 甥 */ return "sang";
+        case 250: /* 用 */ return "yung";
+        case 251: /* 甩 */ return "lat";
+        case 253: /* 甫 */ return "foo";
+        case 254: /* 甬 */ return "yung";
+        case 255: /* 甭 */ return "bung";
+        case 260: /* 田 */ return "tin";
+        case 261: /* 由 */ return "yau";
+        case 262: /* 甲 */ return "gaap";
+        case 263: /* 申 */ return "san";
+        case 265: /* 电 */ return "din";
+        case 267: /* 男 */ return "naam";
+        case 270: /* 甸 */ return "din";
+        case 272: /* 町 */ return "ting";
+        case 273: /* 画 */ return "wa/waak";
+        case 276: /* 甾 */ return "joi";
+        }
+      case 225:
+        switch (octal[2]) {
+        case 200: /* 畀 */ return "bei";
+        case 205: /* 畅 */ return "cheung";
+        case 210: /* 畈 */ return "faan";
+        case 213: /* 畋 */ return "tin";
+        case 214: /* 界 */ return "gaai";
+        case 216: /* 畎 */ return "huen";
+        case 217: /* 畏 */ return "wai";
+        case 224: /* 畔 */ return "boon";
+        case 231: /* 留 */ return "lau";
+        case 233: /* 畛 */ return "chan";
+        case 234: /* 畜 */ return "chuk";
+        case 235: /* 畝 */ return "mau";
+        case 242: /* 畢 */ return "bat";
+        case 245: /* 略 */ return "leuk";
+        case 246: /* 畦 */ return "wa";
+        case 252: /* 番 */ return "faan";
+        case 253: /* 畫 */ return "wa/waak";
+        case 254: /* 畬 */ return "yue";
+        case 260: /* 異 */ return "yi";
+        case 262: /* 畲 */ return "yue";
+        case 264: /* 畴 */ return "chau";
+        case 266: /* 當 */ return "dong";
+        case 270: /* 畸 */ return "kei";
+        case 271: /* 畹 */ return "yuen";
+        case 277: /* 畿 */ return "gei";
+        }
+      case 226:
+        switch (octal[2]) {
+        case 203: /* 疃 */ return "tun";
+        case 206: /* 疆 */ return "geung";
+        case 207: /* 疇 */ return "chau/chau$";
+        case 212: /* 疊 */ return "dip";
+        case 213: /* 疋 */ return "pat";
+        case 217: /* 疏 */ return "soh";
+        case 221: /* 疑 */ return "yi";
+        case 224: /* 疔 */ return "deng";
+        case 226: /* 疖 */ return "beng";
+        case 227: /* 疗 */ return "liu";
+        case 231: /* 疙 */ return "gat";
+        case 232: /* 疚 */ return "gau";
+        case 235: /* 疝 */ return "beng";
+        case 237: /* 疟 */ return "yeuk";
+        case 240: /* 疠 */ return "beng";
+        case 241: /* 疡 */ return "yeung";
+        case 243: /* 疣 */ return "beng";
+        case 244: /* 疤 */ return "ba";
+        case 245: /* 疥 */ return "gaai";
+        case 253: /* 疫 */ return "yik";
+        case 254: /* 疬 */ return "beng";
+        case 256: /* 疮 */ return "chong";
+        case 257: /* 疯 */ return "fung";
+        case 260: /* 疰 */ return "beng";
+        case 261: /* 疱 */ return "beng";
+        case 262: /* 疲 */ return "pei";
+        case 263: /* 疳 */ return "beng";
+        case 264: /* 疴 */ return "oh";
+        case 265: /* 疵 */ return "chi";
+        case 270: /* 疸 */ return "beng";
+        case 271: /* 疹 */ return "chan";
+        case 274: /* 疼 */ return "tung";
+        case 275: /* 疽 */ return "jui";
+        case 276: /* 疾 */ return "jat";
+        }
+      case 227:
+        switch (octal[2]) {
+        case 202: /* 痂 */ return "beng";
+        case 203: /* 痃 */ return "beng";
+        case 204: /* 痄 */ return "beng";
+        case 205: /* 病 */ return "beng";
+        case 207: /* 症 */ return "jing";
+        case 210: /* 痈 */ return "yung";
+        case 211: /* 痉 */ return "ging";
+        case 212: /* 痊 */ return "chuen";
+        case 215: /* 痍 */ return "beng";
+        case 222: /* 痒 */ return "yeung";
+        case 224: /* 痔 */ return "ji";
+        case 225: /* 痕 */ return "han";
+        case 226: /* 痖 */ return "beng";
+        case 230: /* 痘 */ return "dau";
+        case 231: /* 痙 */ return "ging";
+        case 233: /* 痛 */ return "tung";
+        case 236: /* 痞 */ return "pei";
+        case 244: /* 痤 */ return "beng";
+        case 246: /* 痦 */ return "beng";
+        case 247: /* 痧 */ return "beng";
+        case 250: /* 痨 */ return "lo";
+        case 252: /* 痪 */ return "woon";
+        case 253: /* 痫 */ return "beng";
+        case 260: /* 痰 */ return "taam";
+        case 261: /* 痱 */ return "beng";
+        case 264: /* 痴 */ return "chi";
+        case 271: /* 痹 */ return "bei";
+        case 272: /* 痺 */ return "bei";
+        case 274: /* 痼 */ return "beng";
+        case 276: /* 痾 */ return "oh";
+        case 277: /* 痿 */ return "beng";
+        }
+      case 230:
+        switch (octal[2]) {
+        case 200: /* 瘀 */ return "yue";
+        case 201: /* 瘁 */ return "sui";
+        case 203: /* 瘃 */ return "beng";
+        case 205: /* 瘅 */ return "beng";
+        case 212: /* 瘊 */ return "beng";
+        case 213: /* 瘋 */ return "fung";
+        case 214: /* 瘌 */ return "laat";
+        case 215: /* 瘍 */ return "yeung";
+        case 220: /* 瘐 */ return "beng";
+        case 223: /* 瘓 */ return "woon";
+        case 225: /* 瘕 */ return "beng";
+        case 227: /* 瘗 */ return "beng";
+        case 230: /* 瘘 */ return "beng";
+        case 231: /* 瘙 */ return "beng";
+        case 233: /* 瘛 */ return "beng";
+        case 236: /* 瘞 */ return "beng";
+        case 237: /* 瘟 */ return "wan";
+        case 240: /* 瘠 */ return "beng";
+        case 241: /* 瘡 */ return "chong";
+        case 242: /* 瘢 */ return "beng";
+        case 244: /* 瘤 */ return "lau";
+        case 245: /* 瘥 */ return "beng";
+        case 246: /* 瘦 */ return "sau";
+        case 247: /* 瘧 */ return "yeuk";
+        case 251: /* 瘩 */ return "daap";
+        case 252: /* 瘪 */ return "bit";
+        case 253: /* 瘫 */ return "taan";
+        case 255: /* 瘭 */ return "beng";
+        case 260: /* 瘰 */ return "beng";
+        case 263: /* 瘳 */ return "beng";
+        case 264: /* 瘴 */ return "jeung";
+        case 265: /* 瘵 */ return "beng";
+        case 270: /* 瘸 */ return "ke";
+        case 274: /* 瘼 */ return "beng";
+        case 276: /* 瘾 */ return "beng";
+        case 277: /* 瘿 */ return "beng";
+        }
+      case 231:
+        switch (octal[2]) {
+        case 200: /* 癀 */ return "beng";
+        case 202: /* 療 */ return "liu";
+        case 203: /* 癃 */ return "beng";
+        case 206: /* 癆 */ return "lo";
+        case 207: /* 癇 */ return "beng";
+        case 211: /* 癉 */ return "beng";
+        case 214: /* 癌 */ return "ngaam";
+        case 215: /* 癍 */ return "beng";
+        case 222: /* 癒 */ return "yue";
+        case 224: /* 癔 */ return "beng";
+        case 226: /* 癖 */ return "pik";
+        case 230: /* 癘 */ return "beng";
+        case 234: /* 癜 */ return "beng";
+        case 236: /* 癞 */ return "beng";
+        case 237: /* 癟 */ return "bit";
+        case 243: /* 癣 */ return "sin";
+        case 244: /* 癤 */ return "beng";
+        case 251: /* 癩 */ return "beng";
+        case 253: /* 癫 */ return "din";
+        case 254: /* 癬 */ return "sin";
+        case 255: /* 癭 */ return "beng";
+        case 256: /* 癮 */ return "beng";
+        case 257: /* 癯 */ return "beng";
+        case 260: /* 癰 */ return "yung";
+        case 261: /* 癱 */ return "taan";
+        case 262: /* 癲 */ return "din";
+        case 270: /* 癸 */ return "kwai";
+        case 273: /* 登 */ return "dang";
+        case 274: /* 發 */ return "faat";
+        case 275: /* 白 */ return "baak";
+        case 276: /* 百 */ return "baak";
+        }
+      case 232:
+        switch (octal[2]) {
+        case 202: /* 皂 */ return "jo";
+        case 204: /* 的 */ return "dik";
+        case 206: /* 皆 */ return "gaai";
+        case 207: /* 皇 */ return "wong";
+        case 210: /* 皈 */ return "gwai";
+        case 213: /* 皋 */ return "go";
+        case 216: /* 皎 */ return "gaau";
+        case 221: /* 皑 */ return "oi";
+        case 223: /* 皓 */ return "ho";
+        case 226: /* 皖 */ return "woon";
+        case 231: /* 皙 */ return "sik";
+        case 232: /* 皚 */ return "oi";
+        case 244: /* 皤 */ return "poh";
+        case 256: /* 皮 */ return "pei";
+        case 260: /* 皰 */ return "beng";
+        case 261: /* 皱 */ return "jau";
+        case 272: /* 皺 */ return "jau";
+        case 277: /* 皿 */ return "ming";
+        }
+      case 233:
+        switch (octal[2]) {
+        case 202: /* 盂 */ return "yue";
+        case 205: /* 盅 */ return "jung";
+        case 206: /* 盆 */ return "poon";
+        case 210: /* 盈 */ return "ying";
+        case 212: /* 益 */ return "yik";
+        case 216: /* 盎 */ return "ong";
+        case 217: /* 盏 */ return "jaan";
+        case 220: /* 盐 */ return "yim";
+        case 221: /* 监 */ return "gaam";
+        case 222: /* 盒 */ return "hap";
+        case 224: /* 盔 */ return "kwai";
+        case 226: /* 盖 */ return "koi";
+        case 227: /* 盗 */ return "do";
+        case 230: /* 盘 */ return "poon";
+        case 233: /* 盛 */ return "sing";
+        case 234: /* 盜 */ return "do";
+        case 236: /* 盞 */ return "jaan";
+        case 237: /* 盟 */ return "mang";
+        case 241: /* 盡 */ return "jun";
+        case 243: /* 監 */ return "gaam";
+        case 244: /* 盤 */ return "poon";
+        case 247: /* 盧 */ return "lo";
+        case 252: /* 盪 */ return "dong";
+        case 256: /* 目 */ return "muk";
+        case 257: /* 盯 */ return "deng";
+        case 261: /* 盱 */ return "muk";
+        case 262: /* 盲 */ return "maang";
+        case 264: /* 直 */ return "jik";
+        case 270: /* 相 */ return "seung";
+        case 271: /* 盹 */ return "muk";
+        case 274: /* 盼 */ return "paan";
+        case 276: /* 盾 */ return "tun";
+        }
+      case 234:
+        switch (octal[2]) {
+        case 201: /* 省 */ return "saang";
+        case 204: /* 眄 */ return "muk";
+        case 207: /* 眇 */ return "muk";
+        case 210: /* 眈 */ return "muk";
+        case 211: /* 眉 */ return "mei";
+        case 213: /* 看 */ return "hon";
+        case 215: /* 眍 */ return "muk";
+        case 231: /* 眙 */ return "muk";
+        case 232: /* 眚 */ return "muk";
+        case 237: /* 真 */ return "jan";
+        case 240: /* 眠 */ return "min";
+        case 242: /* 眢 */ return "muk";
+        case 245: /* 眥 */ return "muk";
+        case 246: /* 眦 */ return "muk";
+        case 250: /* 眨 */ return "jaap";
+        case 251: /* 眩 */ return "yuen";
+        case 255: /* 眭 */ return "muk";
+        case 257: /* 眯 */ return "mai";
+        case 265: /* 眵 */ return "muk";
+        case 266: /* 眶 */ return "hong/kwaang";
+        case 267: /* 眷 */ return "guen";
+        case 270: /* 眸 */ return "mau";
+        case 272: /* 眺 */ return "tiu";
+        case 274: /* 眼 */ return "ngaan";
+        case 276: /* 眾 */ return "jung";
+        }
+      case 235:
+        switch (octal[2]) {
+        case 200: /* 着 */ return "jeuk";
+        case 201: /* 睁 */ return "jaang";
+        case 203: /* 睃 */ return "muk";
+        case 207: /* 睇 */ return "tai";
+        case 220: /* 睐 */ return "loi";
+        case 221: /* 睑 */ return "muk";
+        case 232: /* 睚 */ return "muk";
+        case 233: /* 睛 */ return "jing";
         }
       }
     }

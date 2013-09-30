@@ -23,6 +23,10 @@ spawn = (command, options, next) ->
     if code is 0 then next() else console.log 'Failed: ' + command + ' returns status code ' + code + '.'
 
 get_cantonese_pinyin = (string, done) ->
+  if string.length == 0
+    done ''
+    return
+
   http = require 'http'
   query = require('querystring').stringify
     mode: 'cantonese'
@@ -40,14 +44,47 @@ get_cantonese_pinyin = (string, done) ->
   req.end query
   console.log 'Sending HTTP request...'
 
-java_src_dir = __dirname + '/java/src/org/cghio/cantonese/romanization/'
+chars_file = __dirname + '/chars.json'
 
-task 'java:make', 'make java files', ->
+task 'get:all', 'get all pinyin', ->
   min = 19968 # parseInt('4e00', 16)
   max = 40907 # parseInt('9fcb', 16)
   step = 8000
-  index = 0
+  list = if require('fs').existsSync(chars_file) then require(chars_file) else {}
+  keys = Object.keys(list)
 
+  get_chars = (start, finish) ->
+    end = start + step - 1
+    if end > max then end = max
+    hans = ''
+    for num in [start..end]
+      continue if keys.indexOf(num) == -1
+      hans += String.fromCharCode(num)
+
+    if hans.length > 0
+      console.log 'From ' + hans[0] + ' (' + hans[0].charCodeAt() + '), to ' + hans[hans.length-1] +
+        ' (' + hans[hans.length-1].charCodeAt() + '), length = ' + hans.length
+    else
+      console.log 'Length = 0'
+
+    get_cantonese_pinyin hans, (body) ->
+      for entry in parse_body(body)
+        code = entry[2].charCodeAt()
+        continue if max < code or code < min
+        list[code] = entry[1]
+      if end < max
+        get_chars start + step, finish
+      else
+        finish()
+
+  get_chars min, ->
+    data = JSON.stringify(list, null, 2)
+    write_file chars_file, data, ->
+      console.log 'done.'
+
+java_src_dir = __dirname + '/java/src/octal/org/cghio/cantonese/romanization/'
+
+task 'java:make', 'make java files', ->
   make_java_main = (max) ->
     o   = """
           package org.cghio.cantonese.romanization;
@@ -80,7 +117,7 @@ task 'java:make', 'make java files', ->
               String pinyin = Hanzi2PinyinData1.fromChar(octal);
 
           """
-    o += '    if (pinyin == null) pinyin = Hanzi2PinyinData' + num + '.fromChar(octal);\n' for num in [2..max]
+    o += '    if (pinyin == null) pinyin = Hanzi2PinyinData' + num + '.fromChar(octal);\n' for num in [2..max] if max >= 2
     o += '    return pinyin;\n'
     o += '  }\n\n'
     o += '}\n'
@@ -109,35 +146,37 @@ task 'java:make', 'make java files', ->
     o += '  }\n\n'
     o += '}\n'
 
-  get_chars = (start, finish) ->
+  list = if require('fs').existsSync(chars_file) then require(chars_file) else {}
+  keys = Object.keys(list)
+  step = 4200
+  index = 0
+
+  chars_to_java = (start, finish) ->
     index += 1
-    end = start + step - 1
-    if end > max then end = max
-    hans = ''
-    hans += String.fromCharCode(num) for num in [start..end]
-    console.log 'From ' + hans[0] + ' (' + start + '), to ' + hans[hans.length-1] +
-      ' (' + end + '), length = ' + hans.length
-    get_cantonese_pinyin hans, (body) ->
-      console.log 'Data received. Making java files...'
-      list = {}
-      for entry in parse_body(body)
-        code = entry[2].charCodeAt()
-        continue if max < code or code < min
-        oct = string_to_octal_array(entry[2])
-        list[oct[0]] = {} unless list.hasOwnProperty(oct[0])
-        list[oct[0]][oct[1]] = {} unless list[oct[0]].hasOwnProperty(oct[1])
-        list[oct[0]][oct[1]][oct[2]] = { char: entry[2], pinyin: entry[1] }
-      data = make_java_source list, index
-      file = java_src_dir + 'Hanzi2PinyinData' + index + '.java'
-      write_file file, data, ->
-        console.log 'File was saved: ' + file.replace(/^.*\//, '')
-        if end < max
-          get_chars start + step, finish
-        else
-          finish index
+    end = start + step
+    if end > keys.length then end = keys.length
+    olist = {}
+    count = 0
+    for i in [start...end]
+      char = String.fromCharCode(keys[i])
+      oct = string_to_octal_array(char)
+      olist[oct[0]] = {} unless olist.hasOwnProperty(oct[0])
+      olist[oct[0]][oct[1]] = {} unless olist[oct[0]].hasOwnProperty(oct[1])
+      olist[oct[0]][oct[1]][oct[2]] = { char: char, pinyin: list[keys[i]] }
+      count += 1
+    console.log 'From ' + String.fromCharCode(keys[start]) + ' (' + keys[start] + '), to ' +
+      String.fromCharCode(keys[end-1]) + ' (' + keys[end-1] + '), length = ' + count
+    data = make_java_source olist, index
+    file = java_src_dir + 'Hanzi2PinyinData' + index + '.java'
+    write_file file, data, ->
+      console.log 'File was saved: ' + file.replace(/^.*\//, '')
+      if end < keys.length
+        chars_to_java start + step, finish
+      else
+        finish index
 
   exec 'mkdir -p "' + java_src_dir + '"', ->
-    get_chars min, (max) ->
+    chars_to_java 0, (max) ->
       write_file java_src_dir + 'Hanzi2Pinyin.java', make_java_main(max), ->
         console.log 'File was saved: Hanzi2Pinyin.java'
 
