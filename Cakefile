@@ -82,9 +82,19 @@ task 'get:all', 'get all pinyin', ->
     write_file chars_file, data, ->
       console.log 'done.'
 
-java_src_dir = __dirname + '/java/src/octal/org/cghio/cantonese/romanization/'
+java_src_decimal_dir = __dirname + '/java/src/decimal/org/cghio/cantonese/romanization/'
+java_src_octal_dir = __dirname + '/java/src/octal/org/cghio/cantonese/romanization/'
+java_src_to_compile = [java_src_decimal_dir, java_src_octal_dir]
 
-task 'java:make', 'make java files', ->
+jar_file_decimal = __dirname + '/cantonese-romanization-decimal.jar'
+jar_file_octal = __dirname + '/cantonese-romanization-octal.jar'
+jar_files = [jar_file_decimal, jar_file_octal]
+
+make_java = (type) ->
+  java_src_dir = switch type
+    when 'decimal' then java_src_decimal_dir
+    when 'octal' then java_src_octal_dir
+
   make_java_main = (max) ->
     o   = """
           package org.cghio.cantonese.romanization;
@@ -97,6 +107,29 @@ task 'java:make', 'make java files', ->
              */
             public static String fromChar(String character) throws java.io.UnsupportedEncodingException {
               if (character == null || character.isEmpty()) return null;
+
+          """
+    switch type
+      when 'decimal'
+        o  += 
+          """
+
+              return fromChar(Character.codePointAt(character, 0));
+            }
+
+            /**
+             * Returns Cantonese Pinyin of a Chinese character.
+             * @param decimal value of Chinese character
+             */
+            public static String fromChar(int decimal) {
+              String pinyin = Hanzi2PinyinData1.fromChar(decimal);
+          
+          """
+        o +=
+         '    if (pinyin == null) pinyin = Hanzi2PinyinData' + num + '.fromChar(decimal);\n' for num in [2..max] if max >= 2
+      when 'octal'
+        o  += 
+          """
 
               byte[] b = character.getBytes();
               if (b.length < 3) return null;
@@ -115,14 +148,32 @@ task 'java:make', 'make java files', ->
             public static String fromChar(int[] octal) {
               if (octal.length < 3) return null;
               String pinyin = Hanzi2PinyinData1.fromChar(octal);
-
+          
           """
-    o += '    if (pinyin == null) pinyin = Hanzi2PinyinData' + num + '.fromChar(octal);\n' for num in [2..max] if max >= 2
+        o +=
+         '    if (pinyin == null) pinyin = Hanzi2PinyinData' + num + '.fromChar(octal);\n' for num in [2..max] if max >= 2
+
     o += '    return pinyin;\n'
     o += '  }\n\n'
     o += '}\n'
 
-  make_java_source = (list, index) ->
+  make_java_decimal_source = (list, index) ->
+    o  = 'package org.cghio.cantonese.romanization;\n\n'
+    o += 'public class Hanzi2PinyinData' + index + ' {\n\n'
+    o += '  /**\n'
+    o += '   * Returns Cantonese Pinyin of a Chinese character.\n'
+    o += '   * @param decimal value of Chinese character\n'
+    o += '   */\n'
+    o += '  public static String fromChar(int decimal) {\n'
+    o += '    switch (decimal) {\n'
+    for k, v of list
+      o += '    case ' + k + ': /* ' + String.fromCharCode(k) + ' */ return "' + v + '";\n'
+    o += '    }\n'
+    o += '    return null;\n'
+    o += '  }\n\n'
+    o += '}\n'
+
+  make_java_octal_source = (list, index) ->
     o  = 'package org.cghio.cantonese.romanization;\n\n'
     o += 'public class Hanzi2PinyinData' + index + ' {\n\n'
     o += '  /**\n'
@@ -157,16 +208,24 @@ task 'java:make', 'make java files', ->
     if end > keys.length then end = keys.length
     olist = {}
     count = 0
-    for i in [start...end]
-      char = String.fromCharCode(keys[i])
-      oct = string_to_octal_array(char)
-      olist[oct[0]] = {} unless olist.hasOwnProperty(oct[0])
-      olist[oct[0]][oct[1]] = {} unless olist[oct[0]].hasOwnProperty(oct[1])
-      olist[oct[0]][oct[1]][oct[2]] = { char: char, pinyin: list[keys[i]] }
-      count += 1
+    data = ''
+    switch type
+      when 'decimal'
+        for i in [start...end]
+          olist[keys[i]] = list[keys[i]]
+          count += 1
+        data = make_java_decimal_source olist, index
+      when 'octal'
+        for i in [start...end]
+          char = String.fromCharCode(keys[i])
+          oct = string_to_octal_array(char)
+          olist[oct[0]] = {} unless olist.hasOwnProperty(oct[0])
+          olist[oct[0]][oct[1]] = {} unless olist[oct[0]].hasOwnProperty(oct[1])
+          olist[oct[0]][oct[1]][oct[2]] = { char: char, pinyin: list[keys[i]] }
+          count += 1
+        data = make_java_octal_source olist, index
     console.log 'From ' + String.fromCharCode(keys[start]) + ' (' + keys[start] + '), to ' +
       String.fromCharCode(keys[end-1]) + ' (' + keys[end-1] + '), length = ' + count
-    data = make_java_source olist, index
     file = java_src_dir + 'Hanzi2PinyinData' + index + '.java'
     write_file file, data, ->
       console.log 'File was saved: ' + file.replace(/^.*\//, '')
@@ -180,17 +239,31 @@ task 'java:make', 'make java files', ->
       write_file java_src_dir + 'Hanzi2Pinyin.java', make_java_main(max), ->
         console.log 'File was saved: Hanzi2Pinyin.java'
 
-task 'java:compile', 'compile java files and put them into jar', ->
-  tmp_dir = __dirname + '/tmp'
-  jar_file = __dirname + '/cantonese-romanization.jar'
 
-  exec 'mkdir -p "' + tmp_dir + '"', ->
-    require('fs').readdir java_src_dir, (err, files) ->
-      files = files.filter (file) -> /\.java$/.test(file)
-      files = files.map (file) -> java_src_dir + file
+task 'java:decimal:make', 'make java files', ->
+  make_java 'decimal'
+
+task 'java:octal:make', 'make java files', ->
+  make_java 'octal'
+
+task 'java:compile', 'compile java files and put them into jar', ->
+  all_files = []
+  tmp_dir = __dirname + '/tmp'
+
+  for java_src_dir in java_src_to_compile
+    files = require('fs').readdirSync(java_src_dir).filter (file) -> /\.java$/.test(file)
+    files = files.map (file) -> java_src_dir + file
+    all_files.push(files)
+
+  compile = (all_files_index) ->
+    if all_files_index >= all_files.length then return
+    exec 'mkdir -p "' + tmp_dir + '"', ->
       console.log 'Compiling...'
-      spawn 'javac', ['-d', tmp_dir].concat(files), ->
+      spawn 'javac', ['-d', tmp_dir].concat(all_files[all_files_index]), ->
         console.log 'Archiving...'
-        spawn 'jar', ['cf', jar_file, '-C', tmp_dir, 'org'], ->
+        spawn 'jar', ['cf', jar_files[all_files_index], '-C', tmp_dir, 'org'], ->
           exec 'rm -rf "' + tmp_dir + '"', ->
-            console.log 'OK. Jar file is made: ' + jar_file
+            console.log 'OK. Jar file is made: ' + jar_files[all_files_index]
+            compile all_files_index+1
+
+  compile 0
