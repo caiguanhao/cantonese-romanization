@@ -32,7 +32,7 @@ public class Hanzi2PinyinData2 {
         switch (octal[2]) {
         case 200: /* 瞀 */ return "muk";
         case 204: /* 瞄 */ return "miu";
-        case 205: /* 瞅 */ return "chau/chau!";
+        case 205: /* 瞅 */ return "chau";
         case 207: /* 瞇 */ return "mai";
         case 214: /* 瞌 */ return "koi";
         case 215: /* 瞍 */ return "muk";
@@ -271,7 +271,7 @@ public class Hanzi2PinyinData2 {
         case 206: /* 秆 */ return "gon";
         case 210: /* 秈 */ return "sin";
         case 211: /* 秉 */ return "bing";
-        case 213: /* 秋 */ return "chau/chau!";
+        case 213: /* 秋 */ return "chau";
         case 215: /* 种 */ return "jung";
         case 221: /* 科 */ return "foh";
         case 222: /* 秒 */ return "miu";
@@ -306,7 +306,7 @@ public class Hanzi2PinyinData2 {
         case 232: /* 稚 */ return "ji";
         case 236: /* 稞 */ return "woh";
         case 237: /* 稟 */ return "ban";
-        case 240: /* 稠 */ return "chau/chau$";
+        case 240: /* 稠 */ return "chau";
         case 243: /* 稣 */ return "so";
         case 256: /* 種 */ return "jung";
         case 261: /* 稱 */ return "ching";
@@ -537,7 +537,7 @@ public class Hanzi2PinyinData2 {
         case 200: /* 籀 */ return "jukfa";
         case 201: /* 籁 */ return "jukfa";
         case 203: /* 籃 */ return "laam";
-        case 214: /* 籌 */ return "chau/chau@";
+        case 214: /* 籌 */ return "chau";
         case 215: /* 籍 */ return "jik";
         case 220: /* 籐 */ return "tang";
         case 234: /* 籜 */ return "jukfa";
@@ -1259,7 +1259,7 @@ public class Hanzi2PinyinData2 {
         case 250: /* 臨 */ return "lam";
         case 252: /* 自 */ return "ji";
         case 254: /* 臬 */ return "yit";
-        case 255: /* 臭 */ return "chau/chau#";
+        case 255: /* 臭 */ return "chau";
         case 263: /* 至 */ return "ji";
         case 264: /* 致 */ return "ji";
         case 273: /* 臻 */ return "jun";
@@ -2590,7 +2590,7 @@ public class Hanzi2PinyinData2 {
         case 205: /* 躅 */ return "juk";
         case 207: /* 躇 */ return "chue";
         case 211: /* 躉 */ return "juk";
-        case 212: /* 躊 */ return "chau/chau$";
+        case 212: /* 躊 */ return "chau";
         case 213: /* 躋 */ return "juk";
         case 215: /* 躍 */ return "yeuk";
         case 217: /* 躏 */ return "juk";
@@ -2982,7 +2982,7 @@ public class Hanzi2PinyinData2 {
         case 245: /* 酥 */ return "so";
         case 251: /* 酩 */ return "ming";
         case 252: /* 酪 */ return "lok";
-        case 254: /* 酬 */ return "chau/chau$";
+        case 254: /* 酬 */ return "chau";
         case 256: /* 酮 */ return "tung";
         case 257: /* 酯 */ return "jau";
         case 260: /* 酰 */ return "jau";

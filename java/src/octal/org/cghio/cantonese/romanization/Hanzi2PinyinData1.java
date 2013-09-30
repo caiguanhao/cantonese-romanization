@@ -1075,7 +1075,7 @@ public class Hanzi2PinyinData1 {
       case 227:
         switch (octal[2]) {
         case 204: /* 嗄 */ return "sa";
-        case 205: /* 嗅 */ return "chau/chau#";
+        case 205: /* 嗅 */ return "chau";
         case 206: /* 嗆 */ return "cheung";
         case 211: /* 嗉 */ return "so";
         case 214: /* 嗌 */ return "aai";
@@ -1209,7 +1209,7 @@ public class Hanzi2PinyinData1 {
         case 212: /* 囊 */ return "nong";
         case 221: /* 囑 */ return "juk";
         case 224: /* 囔 */ return "nong";
-        case 232: /* 囚 */ return "chau/chau$";
+        case 232: /* 囚 */ return "chau";
         case 233: /* 四 */ return "sei";
         case 235: /* 囝 */ return "wai";
         case 236: /* 回 */ return "wooi";
@@ -2544,7 +2544,7 @@ public class Hanzi2PinyinData1 {
         case 271: /* 抹 */ return "moot";
         case 273: /* 抻 */ return "sau";
         case 274: /* 押 */ return "aat";
-        case 275: /* 抽 */ return "chau/chau!/chau$";
+        case 275: /* 抽 */ return "chau";
         case 277: /* 抿 */ return "man";
         }
       case 213:
@@ -3663,7 +3663,7 @@ public class Hanzi2PinyinData1 {
         switch (octal[2]) {
         case 201: /* 況 */ return "fong";
         case 204: /* 泄 */ return "sit";
-        case 205: /* 泅 */ return "chau/chau$";
+        case 205: /* 泅 */ return "chau";
         case 211: /* 泉 */ return "chuen";
         case 212: /* 泊 */ return "bok";
         case 214: /* 泌 */ return "bei";
@@ -3809,7 +3809,7 @@ public class Hanzi2PinyinData1 {
       case 271:
         switch (octal[2]) {
         case 203: /* 湃 */ return "baai";
-        case 212: /* 湊 */ return "chau/chau#";
+        case 212: /* 湊 */ return "chau";
         case 215: /* 湍 */ return "chuen";
         case 226: /* 湖 */ return "woo";
         case 230: /* 湘 */ return "seung";
@@ -4482,7 +4482,7 @@ public class Hanzi2PinyinData1 {
         switch (octal[2]) {
         case 203: /* 疃 */ return "tun";
         case 206: /* 疆 */ return "geung";
-        case 207: /* 疇 */ return "chau/chau$";
+        case 207: /* 疇 */ return "chau";
         case 212: /* 疊 */ return "dip";
         case 213: /* 疋 */ return "pat";
         case 217: /* 疏 */ return "soh";
