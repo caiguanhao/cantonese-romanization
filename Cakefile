@@ -100,6 +100,27 @@ task 'swap', 'swap keys and values', ->
   write_file pinyin2code, data, ->
     console.log 'done.'
 
+pinyin2code_deep = __dirname + '/json/pinyin-code.deep.json'
+
+task 'swap:deep', 'swap keys and values', ->
+  list = require(code2pinyin)
+  values = []
+  new_list = {}
+  for k, v of list
+    v = v.split('/')
+    values = values.concat(v)
+  values = values.filter (e, i, arr) -> arr.lastIndexOf(e) is i
+  values.sort()
+  for v in values
+    new_list[v] = []
+  for k, v of list
+    v = v.split('/')
+    for wee in v
+      new_list[wee].push parseInt(k)
+  data = JSON.stringify(new_list, null, 2).replace(/\n\s{4}/g, ' ').replace(/\n\s{2}\]/g, ' ]')
+  write_file pinyin2code_deep, data, ->
+    console.log 'done.'
+
 java_src_decimal_dir = __dirname + '/java/src/decimal/org/cghio/cantonese/romanization/'
 java_src_octal_dir = __dirname + '/java/src/octal/org/cghio/cantonese/romanization/'
 java_src_to_compile = [java_src_decimal_dir, java_src_octal_dir]
