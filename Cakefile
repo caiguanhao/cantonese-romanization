@@ -247,12 +247,15 @@ task 'java:octal:make', 'make java files', ->
   make_java 'octal'
 
 task 'java:compile', 'compile java files and put them into jar', ->
+  fs = require('fs')
   all_files = []
   tmp_dir = __dirname + '/tmp'
 
   for java_src_dir in java_src_to_compile
-    files = require('fs').readdirSync(java_src_dir).filter (file) -> /\.java$/.test(file)
+    if !fs.existsSync(java_src_dir) then continue
+    files = fs.readdirSync(java_src_dir).filter (file) -> /\.java$/.test(file)
     files = files.map (file) -> java_src_dir + file
+    if files.length == 0 then continue
     all_files.push(files)
 
   compile = (all_files_index) ->
@@ -266,4 +269,7 @@ task 'java:compile', 'compile java files and put them into jar', ->
             console.log 'OK. Jar file is made: ' + jar_files[all_files_index]
             compile all_files_index+1
 
-  compile 0
+  if all_files.length == 0
+    console.log 'Please make java files first!'
+  else
+    compile 0
