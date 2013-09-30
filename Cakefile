@@ -44,13 +44,13 @@ get_cantonese_pinyin = (string, done) ->
   req.end query
   console.log 'Sending HTTP request...'
 
-chars_file = __dirname + '/chars.json'
+code2pinyin = __dirname + '/json/code-pinyin.json'
 
 task 'get:all', 'get all pinyin', ->
   min = 19968 # parseInt('4e00', 16)
   max = 40907 # parseInt('9fcb', 16)
   step = 8000
-  list = if require('fs').existsSync(chars_file) then require(chars_file) else {}
+  list = if require('fs').existsSync(code2pinyin) then require(code2pinyin) else {}
   keys = Object.keys(list)
 
   get_chars = (start, finish) ->
@@ -79,13 +79,13 @@ task 'get:all', 'get all pinyin', ->
 
   get_chars min, ->
     data = JSON.stringify(list, null, 2)
-    write_file chars_file, data, ->
+    write_file code2pinyin, data, ->
       console.log 'done.'
 
-pinyin2code = __dirname + '/pinyin-code.json'
+pinyin2code = __dirname + '/json/pinyin-code.json'
 
 task 'swap', 'swap keys and values', ->
-  list = require(chars_file)
+  list = require(code2pinyin)
   values = []
   new_list = {}
   for k, v of list
@@ -215,7 +215,7 @@ make_java = (type) ->
     o += '  }\n\n'
     o += '}\n'
 
-  list = if require('fs').existsSync(chars_file) then require(chars_file) else {}
+  list = if require('fs').existsSync(code2pinyin) then require(code2pinyin) else {}
   keys = Object.keys(list)
   step = 4200
   index = 0
