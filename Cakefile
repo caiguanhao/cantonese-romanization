@@ -1,6 +1,5 @@
 child_process = require 'child_process'
-STDOUT = write: (data) ->
-  process.stdout.write data.toString()
+test_dir = __dirname + '/test'
 
 string_to_octal_array = (string) -> (b.toString(8) for b in new Buffer(string))
 
@@ -19,10 +18,14 @@ exec = (command, next) ->
 
 spawn = (command, options, next) ->
   cmd = child_process.spawn command, options
-  cmd.stdout.on 'data', STDOUT.write
-  cmd.stderr.on 'data', STDOUT.write
+  cmd.stdout.on 'data', (data) -> process.stdout.write data.toString()
+  cmd.stderr.on 'data', (data) -> process.stderr.write data.toString()
   cmd.on 'close', (code) ->
-    if code is 0 then next() else console.log 'Failed: ' + command + ' returns status code ' + code + '.'
+    if code is 0
+      next()
+    else
+      console.log 'Failed: ' + command + ' returns status code ' + code + '.'
+      return process.exit(code)
 
 get_cantonese_pinyin = (string, done) ->
   if string.length == 0
@@ -505,6 +508,28 @@ task 'java:compile', 'compile java files and put them into jar', ->
   else
     compile 0
 
+task 'java:test:make', 'make tests', ->
+  list = require(code2pinyin)
+  keys = Object.keys(list)
+
+  h2p = (index, start, end) ->
+    o =    'import org.cghio.cantonese.romanization.Hanzi2Pinyin;\n'
+    o +=   'import static org.junit.Assert.assertEquals;\n\n'
+    o +=   'public class test_hanzi2pinyin_' + index + ' {\n\n'
+    o +=   '  public static void main(String[] args) {\n'
+    count = 0
+    for i in [start...end]
+      o += '    assertEquals(Hanzi2Pinyin.fromChar("' + String.fromCharCode(keys[i]) + '"), "' + list[keys[i]] + '");\n'
+      count += 1
+    o +=   '    System.out.println("' + count + ' Hanzi-to-Pinyin tests were passed.");'
+    o +=   '  }\n\n'
+    o +=   '}\n'
+
+  write_file test_dir + '/test_hanzi2pinyin_1.java', h2p(1, 0, 4000), ->
+    console.log 'File was saved: test_hanzi2pinyin_1.java'
+    write_file test_dir + '/test_hanzi2pinyin_2.java', h2p(2, 4000, keys.length), ->
+      console.log 'File was saved: test_hanzi2pinyin_2.java'
+
 task 'java:test:benchmark', 'run benchmark', ->
   console.log 'Decimal:'
   spawn 'javac', ['-cp', jar_file_decimal, '-encoding', 'UTF8', __dirname + '/test/benchmark.java'], ->
@@ -516,3 +541,10 @@ task 'java:test:benchmark', 'run benchmark', ->
           spawn 'javac', ['-cp', jar_file_string, '-encoding', 'UTF8', __dirname + '/test/benchmark.java'], ->
             spawn 'java', ['-cp', jar_file_string + ':' + __dirname + '/test/', 'benchmark'], ->
               console.log 'Done.'
+
+task 'java:test:h2p', 'run benchmark', ->
+  junit = test_dir + '/junit-4.11.jar'
+  spawn 'javac', ['-cp', jar_file_decimal + ':' + junit, '-encoding', 'UTF8', test_dir + '/test_hanzi2pinyin_1.java'], ->
+    spawn 'java', ['-cp', jar_file_decimal + ':' + junit + ':' + test_dir, 'test_hanzi2pinyin_1'], ->
+      spawn 'javac', ['-cp', jar_file_decimal + ':' + junit, '-encoding', 'UTF8', test_dir + '/test_hanzi2pinyin_2.java'], ->
+        spawn 'java', ['-cp', jar_file_decimal + ':' + junit + ':' + test_dir, 'test_hanzi2pinyin_2'], ->
