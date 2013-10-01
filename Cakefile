@@ -125,16 +125,19 @@ task 'swap:deep', 'swap keys and values', ->
 
 java_src_decimal_dir = __dirname + '/java/src/decimal/org/cghio/cantonese/romanization/'
 java_src_octal_dir = __dirname + '/java/src/octal/org/cghio/cantonese/romanization/'
-java_src_to_compile = [java_src_decimal_dir, java_src_octal_dir]
+java_src_string_dir = __dirname + '/java/src/string/org/cghio/cantonese/romanization/'
+java_src_to_compile = [java_src_decimal_dir, java_src_octal_dir, java_src_string_dir]
 
 jar_file_decimal = __dirname + '/release/cantonese-romanization-decimal.jar'
 jar_file_octal = __dirname + '/release/cantonese-romanization-octal.jar'
-jar_files = [jar_file_decimal, jar_file_octal]
+jar_file_string = __dirname + '/release/cantonese-romanization-string.jar'
+jar_files = [jar_file_decimal, jar_file_octal, jar_file_string]
 
 make_java = (type) ->
   java_src_dir = switch type
     when 'decimal' then java_src_decimal_dir
     when 'octal' then java_src_octal_dir
+    when 'string' then java_src_string_dir
 
   make_hanzi2pinyin = (max) ->
     o   = """
@@ -195,6 +198,17 @@ make_java = (type) ->
           """
         o +=
          '    if (pinyin == null) pinyin = Hanzi2PinyinData' + num + '.fromChar(octal);\n' for num in [2..max] if max >= 2
+      when 'string'
+        o  += 
+          """
+            public static String fromChar(String character) {
+              if (character == null || character.isEmpty()) return null;
+
+              String pinyin = Hanzi2PinyinData1.fromChar(character);
+          
+          """
+        o +=
+         '    if (pinyin == null) pinyin = Hanzi2PinyinData' + num + '.fromChar(character);\n' for num in [2..max] if max >= 2
 
     o += '    return pinyin;\n'
     o += '  }\n\n'
@@ -240,6 +254,20 @@ make_java = (type) ->
     o += '  }\n\n'
     o += '}\n'
 
+  make_java_stirng_source = (list, index) ->
+    o  = 'package org.cghio.cantonese.romanization;\n\n'
+    o += 'public class Hanzi2PinyinData' + index + ' {\n\n'
+    o += '  /**\n'
+    o += '   * Returns Cantonese Pinyin of a Chinese character.\n'
+    o += '   * @param the Chinese character\n'
+    o += '   */\n'
+    o += '  public static String fromChar(String c) {\n'
+    for k, v of list
+      o += '    if (c.equals("' + String.fromCharCode(k) + '")) return "' + v + '";\n'
+    o += '    return null;\n'
+    o += '  }\n\n'
+    o += '}\n'
+
   list = if require('fs').existsSync(code2pinyin) then require(code2pinyin) else {}
   keys = Object.keys(list)
   step = 4200
@@ -258,6 +286,11 @@ make_java = (type) ->
           olist[keys[i]] = list[keys[i]]
           count += 1
         data = make_java_decimal_source olist, index
+      when 'string'
+        for i in [start...end]
+          olist[keys[i]] = list[keys[i]]
+          count += 1
+        data = make_java_stirng_source olist, index
       when 'octal'
         for i in [start...end]
           char = String.fromCharCode(keys[i])
@@ -364,13 +397,60 @@ make_java = (type) ->
     o += '  }\n\n'
     o += '}\n'
 
+  make_pinyin2hanzi_string = (max) ->
+    o   = """
+          package org.cghio.cantonese.romanization;
+
+          public class Pinyin2Hanzi {
+
+            /**
+             * Returns a array of char code of Chinese characters to a Cantonese Pinyin.
+             * @param the string of a Cantonese Pinyin
+             */
+            public static int[] fromPinyin(String pinyin) {
+              if (pinyin == null || pinyin.isEmpty()) return null;
+
+              int[] hanzi = Pinyin2HanziData1.fromPinyin(pinyin);
+
+          """
+    o += '    if (hanzi == null) hanzi = Pinyin2HanziData' + num + '.fromPinyin(pinyin);\n' for num in [2..max] if max >= 2
+    o += '    return hanzi;\n'
+    o += '  }\n\n'
+    o += '}\n'
+
+  make_java_pinyin_source_string = (list, index) ->
+    o  = 'package org.cghio.cantonese.romanization;\n\n'
+    o += 'public class Pinyin2HanziData' + index + ' {\n\n'
+    o += '  /**\n'
+    o += '   * Returns a array of char code of Chinese characters to a Cantonese Pinyin.\n'
+    o += '   * @param array of integers to a Cantonese Pinyin\n'
+    o += '   */\n'
+    o += '  public static int[] fromPinyin(String pinyin) {\n'
+    `forr: //`
+    for k, v of list
+      switch index
+        when 1
+          `break forr` if k[0] >= 'k'
+        when 2
+          continue if k[0] < 'k'
+      o += '    if (pinyin.equals("' + k + '")) return new int[]{ ' + v.join(', ') + ' };\n'
+    o += '    return null;\n'
+    o += '  }\n\n'
+    o += '}\n'
+
   pinyin_to_java = (finish) ->
     list = if require('fs').existsSync(pinyin2code_deep) then require(pinyin2code_deep) else {}
-    data = make_java_pinyin_source list, 1
+    if type == 'string'
+      data = make_java_pinyin_source_string list, 1
+    else
+      data = make_java_pinyin_source list, 1
     file = java_src_dir + 'Pinyin2HanziData1.java'
     write_file file, data, ->
       console.log 'File was saved: ' + file.replace(/^.*\//, '')
-      data = make_java_pinyin_source list, 2
+      if type == 'string'
+        data = make_java_pinyin_source_string list, 2
+      else
+        data = make_java_pinyin_source list, 2
       file = java_src_dir + 'Pinyin2HanziData2.java'
       write_file file, data, ->
         console.log 'File was saved: ' + file.replace(/^.*\//, '')
@@ -381,7 +461,11 @@ make_java = (type) ->
       write_file java_src_dir + 'Hanzi2Pinyin.java', make_hanzi2pinyin(max), ->
         console.log 'File was saved: Hanzi2Pinyin.java'
         pinyin_to_java (max) ->
-          write_file java_src_dir + 'Pinyin2Hanzi.java', make_pinyin2hanzi(max), ->
+          if type == 'string'
+            data = make_pinyin2hanzi_string(max)
+          else
+            data = make_pinyin2hanzi(max)
+          write_file java_src_dir + 'Pinyin2Hanzi.java', data, ->
             console.log 'File was saved: Pinyin2Hanzi.java'
 
 task 'java:decimal:make', 'make java files', ->
@@ -389,6 +473,9 @@ task 'java:decimal:make', 'make java files', ->
 
 task 'java:octal:make', 'make java files', ->
   make_java 'octal'
+
+task 'java:string:make', 'make java files', ->
+  make_java 'string'
 
 task 'java:compile', 'compile java files and put them into jar', ->
   fs = require('fs')
@@ -425,4 +512,7 @@ task 'java:test:benchmark', 'run benchmark', ->
       console.log 'Octal:'
       spawn 'javac', ['-cp', jar_file_octal, '-encoding', 'UTF8', __dirname + '/test/benchmark.java'], ->
         spawn 'java', ['-cp', jar_file_octal + ':' + __dirname + '/test/', 'benchmark'], ->
-          console.log 'Done.'
+          console.log 'String:'
+          spawn 'javac', ['-cp', jar_file_string, '-encoding', 'UTF8', __dirname + '/test/benchmark.java'], ->
+            spawn 'java', ['-cp', jar_file_string + ':' + __dirname + '/test/', 'benchmark'], ->
+              console.log 'Done.'
