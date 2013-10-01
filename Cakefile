@@ -127,8 +127,8 @@ java_src_decimal_dir = __dirname + '/java/src/decimal/org/cghio/cantonese/romani
 java_src_octal_dir = __dirname + '/java/src/octal/org/cghio/cantonese/romanization/'
 java_src_to_compile = [java_src_decimal_dir, java_src_octal_dir]
 
-jar_file_decimal = __dirname + '/cantonese-romanization-decimal.jar'
-jar_file_octal = __dirname + '/cantonese-romanization-octal.jar'
+jar_file_decimal = __dirname + '/release/cantonese-romanization-decimal.jar'
+jar_file_octal = __dirname + '/release/cantonese-romanization-octal.jar'
 jar_files = [jar_file_decimal, jar_file_octal]
 
 make_java = (type) ->
@@ -417,3 +417,12 @@ task 'java:compile', 'compile java files and put them into jar', ->
     console.log 'Please make java files first!'
   else
     compile 0
+
+task 'java:test:benchmark', 'run benchmark', ->
+  console.log 'Decimal:'
+  spawn 'javac', ['-cp', jar_file_decimal, '-encoding', 'UTF8', __dirname + '/test/benchmark.java'], ->
+    spawn 'java', ['-cp', jar_file_decimal + ':' + __dirname + '/test/', 'benchmark'], ->
+      console.log 'Octal:'
+      spawn 'javac', ['-cp', jar_file_octal, '-encoding', 'UTF8', __dirname + '/test/benchmark.java'], ->
+        spawn 'java', ['-cp', jar_file_octal + ':' + __dirname + '/test/', 'benchmark'], ->
+          console.log 'Done.'
