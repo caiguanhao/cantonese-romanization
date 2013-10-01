@@ -4,6 +4,8 @@ STDOUT = write: (data) ->
 
 string_to_octal_array = (string) -> (b.toString(8) for b in new Buffer(string))
 
+pinyin_to_integer = (pinyin) -> (c.charCodeAt() - 87 for c in pinyin).join('').match(/\d{1,6}/g)
+
 parse_body = (body) -> (/^<span\stitle="(.*)">(.*)<\/span>$/.exec(match) \
   for match in body.match(/^<span\stitle=".*">.*<\/span>$/img) || [])
 
@@ -134,7 +136,7 @@ make_java = (type) ->
     when 'decimal' then java_src_decimal_dir
     when 'octal' then java_src_octal_dir
 
-  make_java_main = (max) ->
+  make_hanzi2pinyin = (max) ->
     o   = """
           package org.cghio.cantonese.romanization;
 
@@ -273,11 +275,112 @@ make_java = (type) ->
       else
         finish index
 
+  make_pinyin2hanzi = (max) ->
+    o   = """
+          package org.cghio.cantonese.romanization;
+
+          public class Pinyin2Hanzi {
+
+            /**
+             * Returns a array of char code of Chinese characters to a Cantonese Pinyin.
+             * @param the string of a Cantonese Pinyin
+             */
+            public static int[] fromPinyin(String pinyin) {
+              if (pinyin == null || pinyin.isEmpty()) return null;
+
+              String code = "";
+              for(char c : pinyin.toCharArray()) {
+                code += ((int) c - 87);
+              }
+              String[] string_array = code.split("(?<=\\\\G.{6})");
+              if (string_array.length > 2) return null;
+              int[] int_array = new int[string_array.length];
+              for (int i = 0; i < int_array.length; i++) {
+                int_array[i] = Integer.parseInt(string_array[i]);
+              }
+
+              int[] hanzi = Pinyin2HanziData1.fromPinyin(int_array);
+
+          """
+    o += '    if (hanzi == null) hanzi = Pinyin2HanziData' + num + '.fromPinyin(int_array);\n' for num in [2..max] if max >= 2
+
+    o += '    return hanzi;\n'
+    o += '  }\n\n'
+    o += '}\n'
+
+  make_java_pinyin_source = (list, index) ->
+    o  = 'package org.cghio.cantonese.romanization;\n\n'
+    o += 'public class Pinyin2HanziData' + index + ' {\n\n'
+    o += '  /**\n'
+    o += '   * Returns a array of char code of Chinese characters to a Cantonese Pinyin.\n'
+    o += '   * @param array of integers to a Cantonese Pinyin\n'
+    o += '   */\n'
+    o += '  public static int[] fromPinyin(int[] pinyin) {\n'
+    o += '    int l = pinyin.length;\n'
+    o += '    switch (pinyin[0]) {\n'
+
+    last_int = 0
+    last_int_2 = 0
+    prev = ''
+
+    `forr: //`
+    for k, v of list
+      switch index
+        when 1
+          `break forr` if k[0] >= 'k'
+        when 2
+          continue if k[0] < 'k'
+      int = pinyin_to_integer(k)
+      if last_int_2 != int[0] and last_int == 0
+        o += prev
+        prev = ''
+      if last_int != int[0]
+        if last_int > 0
+          o += '      }\n'
+        if last_int_2 != int[0]
+          o += '    case ' + int[0] + ':'
+      switch int.length
+        when 1
+          prev = ' /*' + k + '*/ return new int[]{ ' + v.join(', ') + ' };\n'
+          last_int = 0
+        when 2
+          if last_int != int[0]
+            o += '\n'
+            if prev != ''
+              o += '      if (l == 1)' + prev
+              prev = ''
+            o += '      switch (pinyin[1]) {\n'
+          o += '      case ' + int[1] + ': /*' + k + '*/ return new int[]{ ' + v.join(', ') + ' };\n'
+          last_int = int[0]
+      last_int_2 = int[0]
+    if prev != ''
+      o += prev
+    else
+      o += '      }\n'
+    o += '    }\n'
+    o += '    return null;\n'
+    o += '  }\n\n'
+    o += '}\n'
+
+  pinyin_to_java = (finish) ->
+    list = if require('fs').existsSync(pinyin2code_deep) then require(pinyin2code_deep) else {}
+    data = make_java_pinyin_source list, 1
+    file = java_src_dir + 'Pinyin2HanziData1.java'
+    write_file file, data, ->
+      console.log 'File was saved: ' + file.replace(/^.*\//, '')
+      data = make_java_pinyin_source list, 2
+      file = java_src_dir + 'Pinyin2HanziData2.java'
+      write_file file, data, ->
+        console.log 'File was saved: ' + file.replace(/^.*\//, '')
+        finish 2
+
   exec 'mkdir -p "' + java_src_dir + '"', ->
     chars_to_java 0, (max) ->
-      write_file java_src_dir + 'Hanzi2Pinyin.java', make_java_main(max), ->
+      write_file java_src_dir + 'Hanzi2Pinyin.java', make_hanzi2pinyin(max), ->
         console.log 'File was saved: Hanzi2Pinyin.java'
-
+        pinyin_to_java (max) ->
+          write_file java_src_dir + 'Pinyin2Hanzi.java', make_pinyin2hanzi(max), ->
+            console.log 'File was saved: Pinyin2Hanzi.java'
 
 task 'java:decimal:make', 'make java files', ->
   make_java 'decimal'
