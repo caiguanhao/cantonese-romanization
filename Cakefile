@@ -530,21 +530,22 @@ task 'java:test:make', 'make tests', ->
     write_file test_dir + '/test_hanzi2pinyin_2.java', h2p(2, 4000, keys.length), ->
       console.log 'File was saved: test_hanzi2pinyin_2.java'
 
+junit = test_dir + '/junit-4.11.jar'
+
+test = (classpath, file, done) ->
+  spawn 'javac', ['-cp', classpath, '-encoding', 'UTF8', test_dir + '/' + file + '.java'], ->
+    spawn 'java', ['-cp', classpath + ':' + test_dir, file], ->
+      if done then done()
+
 task 'java:test:benchmark', 'run benchmark', ->
   console.log 'Decimal:'
-  spawn 'javac', ['-cp', jar_file_decimal, '-encoding', 'UTF8', __dirname + '/test/benchmark.java'], ->
-    spawn 'java', ['-cp', jar_file_decimal + ':' + __dirname + '/test/', 'benchmark'], ->
-      console.log 'Octal:'
-      spawn 'javac', ['-cp', jar_file_octal, '-encoding', 'UTF8', __dirname + '/test/benchmark.java'], ->
-        spawn 'java', ['-cp', jar_file_octal + ':' + __dirname + '/test/', 'benchmark'], ->
-          console.log 'String:'
-          spawn 'javac', ['-cp', jar_file_string, '-encoding', 'UTF8', __dirname + '/test/benchmark.java'], ->
-            spawn 'java', ['-cp', jar_file_string + ':' + __dirname + '/test/', 'benchmark'], ->
-              console.log 'Done.'
+  test jar_file_decimal, 'benchmark', ->
+    console.log 'Octal:'
+    test jar_file_octal, 'benchmark', ->
+      console.log 'String:'
+      test jar_file_string, 'benchmark', ->
+        console.log 'Done.'
 
 task 'java:test:h2p', 'run benchmark', ->
-  junit = test_dir + '/junit-4.11.jar'
-  spawn 'javac', ['-cp', jar_file_decimal + ':' + junit, '-encoding', 'UTF8', test_dir + '/test_hanzi2pinyin_1.java'], ->
-    spawn 'java', ['-cp', jar_file_decimal + ':' + junit + ':' + test_dir, 'test_hanzi2pinyin_1'], ->
-      spawn 'javac', ['-cp', jar_file_decimal + ':' + junit, '-encoding', 'UTF8', test_dir + '/test_hanzi2pinyin_2.java'], ->
-        spawn 'java', ['-cp', jar_file_decimal + ':' + junit + ':' + test_dir, 'test_hanzi2pinyin_2'], ->
+  test jar_file_decimal + ':' + junit, 'test_hanzi2pinyin_1', ->
+    test jar_file_decimal + ':' + junit, 'test_hanzi2pinyin_2'
