@@ -6,7 +6,7 @@ public class Hanzi2Pinyin {
    * Returns Cantonese Pinyin of a Chinese character.
    * @param character the Chinese character to convert
    */
-  public static String fromChar(String character) throws java.io.UnsupportedEncodingException {
+  public static String fromChar(String character) {
     if (character == null || character.isEmpty()) return null;
 
     return fromChar(Character.codePointAt(character, 0));

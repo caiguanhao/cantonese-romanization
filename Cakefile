@@ -146,14 +146,14 @@ make_java = (type) ->
              * Returns Cantonese Pinyin of a Chinese character.
              * @param character the Chinese character to convert
              */
-            public static String fromChar(String character) throws java.io.UnsupportedEncodingException {
-              if (character == null || character.isEmpty()) return null;
 
           """
     switch type
       when 'decimal'
         o  += 
           """
+            public static String fromChar(String character) {
+              if (character == null || character.isEmpty()) return null;
 
               return fromChar(Character.codePointAt(character, 0));
             }
@@ -171,8 +171,10 @@ make_java = (type) ->
       when 'octal'
         o  += 
           """
+            public static String fromChar(String character) throws java.io.UnsupportedEncodingException {
+              if (character == null || character.isEmpty()) return null;
 
-              byte[] b = character.getBytes();
+              byte[] b = character.getBytes("UTF-8");
               if (b.length < 3) return null;
 
               return fromChar(new int[]{

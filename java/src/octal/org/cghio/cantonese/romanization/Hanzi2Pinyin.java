@@ -9,7 +9,7 @@ public class Hanzi2Pinyin {
   public static String fromChar(String character) throws java.io.UnsupportedEncodingException {
     if (character == null || character.isEmpty()) return null;
 
-    byte[] b = character.getBytes();
+    byte[] b = character.getBytes("UTF-8");
     if (b.length < 3) return null;
 
     return fromChar(new int[]{
