@@ -511,6 +511,8 @@ task 'java:compile', 'compile java files and put them into jar', ->
 task 'java:test:make', 'make tests', ->
   code2pinyin_list = require(code2pinyin)
   code2pinyin_keys = Object.keys(code2pinyin_list)
+  pinyin2code_deep_list = require(pinyin2code_deep)
+  pinyin2code_deep_keys = Object.keys(pinyin2code_deep_list)
 
   h2p = (index, start, end) ->
     end ||= code2pinyin_keys.length
@@ -527,10 +529,28 @@ task 'java:test:make', 'make tests', ->
     o +=   '  }\n\n'
     o +=   '}\n'
 
+  p2h = (index, start, end) ->
+    end ||= pinyin2code_deep_keys.length
+    o =    'import org.cghio.cantonese.romanization.Pinyin2Hanzi;\n'
+    o +=   'import static org.junit.Assert.assertArrayEquals;\n\n'
+    o +=   'public class test_pinyin2hanzi_' + index + ' {\n\n'
+    o +=   '  public static void main(String[] args) {\n'
+    count = 0
+    for i in [start...end]
+      o += '    assertArrayEquals(Pinyin2Hanzi.fromPinyin("' + pinyin2code_deep_keys[i] + '"), new int[]{ ' + pinyin2code_deep_list[pinyin2code_deep_keys[i]].join(', ') + ' });\n'
+      count += 1
+    o +=   '    System.out.println("' + count + ' Pinyin-to-Hanzi tests were passed.");'
+    o +=   '  }\n\n'
+    o +=   '}\n'
+
   write_file test_dir + '/test_hanzi2pinyin_1.java', h2p(1, 0, 4000), ->
     console.log 'File was saved: test_hanzi2pinyin_1.java'
     write_file test_dir + '/test_hanzi2pinyin_2.java', h2p(2, 4000), ->
       console.log 'File was saved: test_hanzi2pinyin_2.java'
+      write_file test_dir + '/test_pinyin2hanzi_1.java', p2h(1, 0, 300), ->
+        console.log 'File was saved: test_pinyin2hanzi_1.java'
+        write_file test_dir + '/test_pinyin2hanzi_2.java', p2h(2, 300), ->
+          console.log 'File was saved: test_pinyin2hanzi_2.java'
 
 junit = test_dir + '/junit-4.11.jar'
 
@@ -551,3 +571,7 @@ task 'java:test:benchmark', 'run benchmark', ->
 task 'java:test:h2p', 'run test', ->
   test jar_file_decimal + ':' + junit, 'test_hanzi2pinyin_1', ->
     test jar_file_decimal + ':' + junit, 'test_hanzi2pinyin_2'
+
+task 'java:test:p2h', 'run test', ->
+  test jar_file_decimal + ':' + junit, 'test_pinyin2hanzi_1', ->
+    test jar_file_decimal + ':' + junit, 'test_pinyin2hanzi_2'
