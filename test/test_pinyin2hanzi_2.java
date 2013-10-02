@@ -8,6 +8,7 @@ public class test_pinyin2hanzi_2 {
   }
 
   public static void main(String[] args) {
+    long startTime = System.currentTimeMillis();
     assertArrayEquals(new int[]{ 26354 }, p2h("kuk"));
     assertArrayEquals(new int[]{ 31351, 31353, 31406 }, p2h("kung"));
     assertArrayEquals(new int[]{ 20361, 22446, 22840, 25358, 33007, 35074, 35463, 36328 }, p2h("kwa"));
@@ -286,7 +287,8 @@ public class test_pinyin2hanzi_2 {
     assertArrayEquals(new int[]{ 21014, 22605, 23221, 26093, 26161, 26378, 26384, 26389, 27442, 27603, 27779, 28020, 29425, 29508, 29577, 32905, 32924, 32927, 32939, 32941, 32945, 32946, 32951, 32956, 32957, 32962, 32973, 32983, 32985, 32989, 33000, 33001, 33002, 33003, 33009, 33010, 33020, 33038, 33042, 33048, 33051, 33054, 33068, 33074, 33078, 33096, 33100, 33113, 33114, 33120, 33121, 33127, 33133, 33140, 33148, 33149, 33154, 33155, 33187, 33190, 33194, 33211, 33217, 33228, 33242, 35109, 35930, 36785, 37057, 37434, 38064, 38922, 39036, 39729, 39739 }, p2h("yuk"));
     assertArrayEquals(new int[]{ 28070, 28516, 38287, 38384 }, p2h("yun"));
     assertArrayEquals(new int[]{ 20323, 20433, 20653, 20887, 21191, 21889, 21985, 23481, 24248, 24703, 25102, 25317, 25793, 27029, 28044, 28263, 28342, 29076, 29992, 29996, 30152, 30320, 32104, 32466, 32705, 33219, 33592, 33993, 34553, 34701, 36362, 36404, 37013, 37854, 38235, 38605 }, p2h("yung"));
-    System.out.println("278 Pinyin-to-Hanzi tests were passed.");
+    long stopTime = System.currentTimeMillis();
+    System.out.println("278 Pinyin-to-Hanzi tests were passed. Time used: " + (stopTime - startTime) + " ms.");
   }
 
 }

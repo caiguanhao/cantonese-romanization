@@ -8,6 +8,7 @@ public class test_pinyin2hanzi_1 {
   }
 
   public static void main(String[] args) {
+    long startTime = System.currentTimeMillis();
     assertArrayEquals(new int[]{ 20011, 20122, 20126, 21526, 21568, 21713, 21834, 21854, 27689, 27692, 37650, 38165, 38463, 40201, 40486 }, p2h("a"));
     assertArrayEquals(new int[]{ 21710, 21769, 21964, 22003, 22127, 22467, 25384, 38552 }, p2h("aai"));
     assertArrayEquals(new int[]{ 20474, 26191 }, p2h("aan"));
@@ -308,7 +309,8 @@ public class test_pinyin2hanzi_1 {
     assertArrayEquals(new int[]{ 25331, 26435, 27402, 35938, 39028, 39079 }, p2h("kuen"));
     assertArrayEquals(new int[]{ 20915, 21122, 21413, 22104, 23379, 25225, 27770, 28820, 32570, 35363, 35662, 35776, 35890, 38242 }, p2h("kuet"));
     assertArrayEquals(new int[]{ 20317, 20322, 20465, 21306, 21312, 23702, 23943, 25298, 25304, 28192, 30655, 31067, 34914, 34986, 36317, 36527, 36544, 39378, 39493, 39537, 39545 }, p2h("kui"));
-    System.out.println("300 Pinyin-to-Hanzi tests were passed.");
+    long stopTime = System.currentTimeMillis();
+    System.out.println("300 Pinyin-to-Hanzi tests were passed. Time used: " + (stopTime - startTime) + " ms.");
   }
 
 }

@@ -8,6 +8,7 @@ public class test_hanzi2pinyin_1 {
   }
 
   public static void main(String[] args) throws java.io.UnsupportedEncodingException {
+    long startTime = System.currentTimeMillis();
     assertEquals("yat", h2p("一"));
     assertEquals("ding", h2p("丁"));
     assertEquals("chat", h2p("七"));
@@ -4008,7 +4009,8 @@ public class test_hanzi2pinyin_1 {
     assertEquals("beng", h2p("疝"));
     assertEquals("yeuk", h2p("疟"));
     assertEquals("beng", h2p("疠"));
-    System.out.println("4000 Hanzi-to-Pinyin tests were passed.");
+    long stopTime = System.currentTimeMillis();
+    System.out.println("4000 Hanzi-to-Pinyin tests were passed. Time used: " + (stopTime - startTime) + " ms.");
   }
 
 }

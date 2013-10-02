@@ -30,6 +30,8 @@ write_file = (path, content, next) ->
   require('fs').writeFile path, content, (error) ->
     if error then console.log 'Failed: Unable to write to file: ' + path else next()
 
+base = (file) -> file.replace(/^.*\//, '')
+
 exec = (command, next) ->
   child_process.exec command, (error, stdout, stderr) ->
     if error then console.log 'Failed: Unable to ' + command else next()
@@ -309,7 +311,7 @@ make_java = (type) ->
       String.fromCharCode(keys[end-1]) + ' (' + keys[end-1] + '), length = ' + count
     file = java_src_dir + 'Hanzi2PinyinData' + index + '.java'
     write_file file, data, ->
-      console.log 'File was saved: ' + file.replace(/^.*\//, '')
+      console.log 'File was saved: ' + base(file)
       if end < keys.length
         chars_to_java start + step, finish
       else
@@ -451,17 +453,18 @@ make_java = (type) ->
       data = make_java_pinyin_source list, 1
     file = java_src_dir + 'Pinyin2HanziData1.java'
     write_file file, data, ->
-      console.log 'File was saved: ' + file.replace(/^.*\//, '')
+      console.log 'File was saved: ' + base(file)
       if type == 'string'
         data = make_java_pinyin_source_string list, 2
       else
         data = make_java_pinyin_source list, 2
       file = java_src_dir + 'Pinyin2HanziData2.java'
       write_file file, data, ->
-        console.log 'File was saved: ' + file.replace(/^.*\//, '')
+        console.log 'File was saved: ' + base(file)
         finish 2
 
   exec 'mkdir -p "' + java_src_dir + '"', ->
+    start = process.hrtime()
     chars_to_java 0, (max) ->
       write_file java_src_dir + 'Hanzi2Pinyin.java', make_hanzi2pinyin(max), ->
         console.log 'File was saved: Hanzi2Pinyin.java'
@@ -471,7 +474,10 @@ make_java = (type) ->
           else
             data = make_pinyin2hanzi(max)
           write_file java_src_dir + 'Pinyin2Hanzi.java', data, ->
-            console.log 'File was saved: Pinyin2Hanzi.java'
+            end = process.hrtime(start)
+            end = (end[0] * 1000 + end[1] / 1000000).toFixed(3)
+            console.log 'File was saved: Pinyin2Hanzi.java.'
+            console.log 'Time used: ' + end + ' ms.'
 
 task 'java:decimal:make', 'make java files', ->
   make_java 'decimal'
@@ -497,12 +503,16 @@ task 'java:compile', 'compile java files and put them into jar', ->
   compile = (all_files_index) ->
     if all_files_index >= all_files.length then return
     exec 'mkdir -p "' + tmp_dir + '"', ->
+      start = process.hrtime()
       console.log 'Compiling...'
       spawn 'javac', ['-d', tmp_dir, '-encoding', 'UTF8'].concat(all_files[all_files_index]), ->
         console.log 'Archiving...'
         spawn 'jar', ['cf', jar_files[all_files_index], '-C', tmp_dir, 'org'], ->
           exec 'rm -rf "' + tmp_dir + '"', ->
-            console.log 'OK. Jar file is made: ' + jar_files[all_files_index]
+            end = process.hrtime(start)
+            end = (end[0] * 1000 + end[1] / 1000000).toFixed(3)
+            console.log 'OK. Jar file is made: ' + base(jar_files[all_files_index]) +
+              '. Time used: ' + end + ' ms.'
             compile all_files_index+1
 
   if all_files.length == 0
@@ -526,12 +536,15 @@ task 'java:test:make', 'make tests', ->
     o +=   '    return Hanzi2Pinyin.fromChar(character);\n'
     o +=   '  }\n\n'
     o +=   '  public static void main(String[] args) throws java.io.UnsupportedEncodingException {\n'
+    o +=   '    long startTime = System.currentTimeMillis();\n'
     count = 0
     for i in [start...end]
       o += '    assertEquals("' + code2pinyin_list[code2pinyin_keys[i]] + '", h2p("' +
         String.fromCharCode(code2pinyin_keys[i]) + '"));\n'
       count += 1
-    o +=   '    System.out.println("' + count + ' Hanzi-to-Pinyin tests were passed.");\n'
+    o +=   '    long stopTime = System.currentTimeMillis();\n'
+    o +=   '    System.out.println("' + count + ' Hanzi-to-Pinyin tests were passed. ' +
+      'Time used: " + (stopTime - startTime) + " ms.");\n'
     o +=   '  }\n\n'
     o +=   '}\n'
 
@@ -544,12 +557,15 @@ task 'java:test:make', 'make tests', ->
     o +=   '    return Pinyin2Hanzi.fromPinyin(pinyin);\n'
     o +=   '  }\n\n'
     o +=   '  public static void main(String[] args) {\n'
+    o +=   '    long startTime = System.currentTimeMillis();\n'
     count = 0
     for i in [start...end]
       o += '    assertArrayEquals(new int[]{ ' + pinyin2code_deep_list[pinyin2code_deep_keys[i]].join(', ') +
         ' }, p2h("' + pinyin2code_deep_keys[i] + '"));\n'
       count += 1
-    o +=   '    System.out.println("' + count + ' Pinyin-to-Hanzi tests were passed.");\n'
+    o +=   '    long stopTime = System.currentTimeMillis();\n'
+    o +=   '    System.out.println("' + count + ' Pinyin-to-Hanzi tests were passed. ' +
+      'Time used: " + (stopTime - startTime) + " ms.");\n'
     o +=   '  }\n\n'
     o +=   '}\n'
 
