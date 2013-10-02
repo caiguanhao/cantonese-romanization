@@ -556,23 +556,32 @@ task 'java:test:make', 'make tests', ->
         write_file test_dir + '/test_pinyin2hanzi_2.java', p2h(2, 300), ->
           console.log 'File was saved: test_pinyin2hanzi_2.java'
 
-test = (classpath, file, done) ->
+test = (classpath, file, args, done) ->
+  if typeof(args) is "function" and !done then done = args; args = []
   spawn 'javac', ['-cp', classpath, '-encoding', 'UTF8', test_dir + '/' + file + '.java'], ->
-    spawn 'java', ['-cp', classpath + ':' + test_dir, file], ->
+    spawn 'java', ['-cp', classpath + ':' + test_dir, file].concat(args), ->
       if done then done()
 
-test_all_jar_files = (func) ->
+test_all_jar_files = (func, optionals) ->
+  optionals ||= [[], [], []]
   console.log 'Running tests towards decimal...'
-  func jar_file_decimal, ->
+  func.apply this, [ jar_file_decimal, ->
     console.log 'Running tests towards octal...'
-    func jar_file_octal, ->
+    func.apply this, [ jar_file_octal, ->
       console.log 'Running tests towards string...'
-      func jar_file_string
+      func.apply this, [ jar_file_string, null
+      ].concat optionals[2]
+    ].concat optionals[1]
+  ].concat optionals[0]
 
-task 'java:test:benchmark', 'run benchmark', ->
-  test_all_jar_files (jar, done) ->
-    test jar, 'benchmark', ->
+option '-e', '--exponents [e]', '10^x times to run scripts of each benchmark, default: 7,7,5'
+task 'java:test:benchmark', 'run benchmarks', (options) ->
+  exponents = (options.exponents || '') + ',,'
+  exponents = exponents.split(',').slice(0,3).map (e) -> if /^[1-9]$/.test(e) then parseInt(e) else 0
+  test_all_jar_files (jar, done, exponent) ->
+    test jar, 'benchmark', exponent, ->
       if done then done()
+  , [[ exponents[0] || 7 ], [ exponents[1] || 7 ], [ exponents[2] || 5 ]]
 
 task 'java:test:h2p', 'run test', ->
   test_all_jar_files (jar, done) ->

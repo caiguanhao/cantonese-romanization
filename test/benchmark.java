@@ -8,6 +8,10 @@ public class benchmark {
   private static String[] colnames = { "Times", "H->P", "P->H", "H<->P" };
 
   public static void main(String[] args) {
+    if (args.length == 1 && args[0].matches("\\d")) {
+      max = Integer.parseInt(args[0]);
+    }
+
     // warm up
     run1(1);
     run2(1);
