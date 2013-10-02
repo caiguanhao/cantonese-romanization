@@ -522,13 +522,16 @@ task 'java:test:make', 'make tests', ->
     o =    'import org.cghio.cantonese.romanization.Hanzi2Pinyin;\n'
     o +=   'import static org.junit.Assert.assertEquals;\n\n'
     o +=   'public class test_hanzi2pinyin_' + index + ' {\n\n'
+    o +=   '  private static String h2p(String character) throws java.io.UnsupportedEncodingException {\n'
+    o +=   '    return Hanzi2Pinyin.fromChar(character);\n'
+    o +=   '  }\n\n'
     o +=   '  public static void main(String[] args) throws java.io.UnsupportedEncodingException {\n'
     count = 0
     for i in [start...end]
-      o += '    assertEquals(Hanzi2Pinyin.fromChar("' + String.fromCharCode(code2pinyin_keys[i]) + '"), "' +
-        code2pinyin_list[code2pinyin_keys[i]] + '");\n'
+      o += '    assertEquals("' + code2pinyin_list[code2pinyin_keys[i]] + '", h2p("' +
+        String.fromCharCode(code2pinyin_keys[i]) + '"));\n'
       count += 1
-    o +=   '    System.out.println("' + count + ' Hanzi-to-Pinyin tests were passed.");'
+    o +=   '    System.out.println("' + count + ' Hanzi-to-Pinyin tests were passed.");\n'
     o +=   '  }\n\n'
     o +=   '}\n'
 
@@ -537,13 +540,16 @@ task 'java:test:make', 'make tests', ->
     o =    'import org.cghio.cantonese.romanization.Pinyin2Hanzi;\n'
     o +=   'import static org.junit.Assert.assertArrayEquals;\n\n'
     o +=   'public class test_pinyin2hanzi_' + index + ' {\n\n'
+    o +=   '  private static int[] p2h(String pinyin) {\n'
+    o +=   '    return Pinyin2Hanzi.fromPinyin(pinyin);\n'
+    o +=   '  }\n\n'
     o +=   '  public static void main(String[] args) {\n'
     count = 0
     for i in [start...end]
-      o += '    assertArrayEquals(Pinyin2Hanzi.fromPinyin("' + pinyin2code_deep_keys[i] + '"), new int[]{ ' +
-        pinyin2code_deep_list[pinyin2code_deep_keys[i]].join(', ') + ' });\n'
+      o += '    assertArrayEquals(new int[]{ ' + pinyin2code_deep_list[pinyin2code_deep_keys[i]].join(', ') +
+        ' }, p2h("' + pinyin2code_deep_keys[i] + '"));\n'
       count += 1
-    o +=   '    System.out.println("' + count + ' Pinyin-to-Hanzi tests were passed.");'
+    o +=   '    System.out.println("' + count + ' Pinyin-to-Hanzi tests were passed.");\n'
     o +=   '  }\n\n'
     o +=   '}\n'
 
