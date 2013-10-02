@@ -6,5 +6,6 @@ script:
   - cake java:octal:make
   - cake java:string:make
   - cake java:compile
+  - cake --exponents 7,6,5 java:test:benchmark
   - cake java:test:h2p
   - cake java:test:p2h
