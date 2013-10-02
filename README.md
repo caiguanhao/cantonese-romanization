@@ -7,13 +7,32 @@ Convert Chinese characters to Cantonese pinyin.
 
 ## Java
 
+### Usage
+
+#### Hanzi to Pinyin
+
+    import org.cghio.cantonese.romanization.Hanzi2Pinyin;
+
+    String pinyin = Hanzi2Pinyin.fromChar("仆");
+
+    pinyin returns "buk/puk"
+
+#### Pinyin to Hanzi
+
+    import org.cghio.cantonese.romanization.Pinyin2Hanzi;
+
+    int[] hanzi_code = Pinyin2Hanzi.fromPinyin("chan");
+    String hanzi = new String(hanzi_code, 0, hanzi_code.length);
+
+    hanzi returns "亲哂塵尘畛疹矧衬襯親診诊趁陈陳齔龀"
+
 ### Performance
 
 ``H->P .. Hanzi2Pinyin.fromChar("龠")``: convert hanzi to pinyin.  
 ``P->H .. Pinyin2Hanzi.fromPinyin("yung")``: convert pinyin to hanzi.  
 ``H<->P``: run both conversions.  
 ``P->H`` operations of Decimal and Octal are the same.  
-Measured in milliseconds.
+Measured in milliseconds on a Mac Mini (2.3GHz i7, 16GB 1600MHz DDR3).
 
 Decimal (fastest):
 
@@ -47,3 +66,7 @@ String comparison (slowest):
     10000     2179   184    2385    
     100000    21731  1802   23578   
     1000000   218359 18264  230221  
+
+## Developer
+
+* caiguanhao &lt;caiguanhao@gmail.com&gt;
