@@ -1,0 +1,10 @@
+language: java
+install:
+  - npm install -g coffee-script
+script:
+  - cake java:decimal:make
+  - cake java:octal:make
+  - cake java:string:make
+  - cake java:compile
+  - cake java:test:h2p
+  - cake java:test:p2h
