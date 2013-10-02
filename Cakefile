@@ -582,7 +582,8 @@ test = (classpath, file, args, done) ->
   if typeof(args) is "function" and !done then done = args; args = []
   spawn 'javac', ['-cp', classpath, '-encoding', 'UTF8', test_dir + '/' + file + '.java'], ->
     spawn 'java', ['-cp', classpath + ':' + test_dir, file].concat(args), ->
-      if done then done()
+      exec 'rm -f "' + test_dir + '/' + file + '.class"', ->
+        if done then done()
 
 test_all_jar_files = (func, optionals, final_func) ->
   optionals ||= [[], [], []]
