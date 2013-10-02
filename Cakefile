@@ -551,17 +551,18 @@ task 'java:test:make', 'make tests', ->
   p2h = (index, start, end) ->
     end ||= pinyin2code_deep_keys.length
     o =    'import org.cghio.cantonese.romanization.Pinyin2Hanzi;\n'
-    o +=   'import static org.junit.Assert.assertArrayEquals;\n\n'
+    o +=   'import static org.junit.Assert.assertEquals;\n\n'
     o +=   'public class test_pinyin2hanzi_' + index + ' {\n\n'
-    o +=   '  private static int[] p2h(String pinyin) {\n'
-    o +=   '    return Pinyin2Hanzi.fromPinyin(pinyin);\n'
+    o +=   '  private static String p2h(String pinyin) {\n'
+    o +=   '    int[] hanzi = Pinyin2Hanzi.fromPinyin(pinyin);\n'
+    o +=   '    return new String(hanzi, 0, hanzi.length);\n'
     o +=   '  }\n\n'
     o +=   '  public static void main(String[] args) {\n'
     o +=   '    long startTime = System.currentTimeMillis();\n'
     count = 0
     for i in [start...end]
-      o += '    assertArrayEquals(new int[]{ ' + pinyin2code_deep_list[pinyin2code_deep_keys[i]].join(', ') +
-        ' }, p2h("' + pinyin2code_deep_keys[i] + '"));\n'
+      o += '    assertEquals("' + String.fromCharCode.apply(this, pinyin2code_deep_list[pinyin2code_deep_keys[i]]) + '"' +
+        ', p2h("' + pinyin2code_deep_keys[i] + '"));\n'
       count += 1
     o +=   '    long stopTime = System.currentTimeMillis();\n'
     o +=   '    System.out.println("' + count + ' Pinyin-to-Hanzi tests were passed. ' +
