@@ -3,7 +3,7 @@ import static org.junit.Assert.assertEquals;
 
 public class test_hanzi2pinyin_2 {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws java.io.UnsupportedEncodingException {
     assertEquals(Hanzi2Pinyin.fromChar("疡"), "yeung");
     assertEquals(Hanzi2Pinyin.fromChar("疣"), "beng");
     assertEquals(Hanzi2Pinyin.fromChar("疤"), "ba");

@@ -496,7 +496,7 @@ task 'java:compile', 'compile java files and put them into jar', ->
     if all_files_index >= all_files.length then return
     exec 'mkdir -p "' + tmp_dir + '"', ->
       console.log 'Compiling...'
-      spawn 'javac', ['-d', tmp_dir].concat(all_files[all_files_index]), ->
+      spawn 'javac', ['-d', tmp_dir, '-encoding', 'UTF8'].concat(all_files[all_files_index]), ->
         console.log 'Archiving...'
         spawn 'jar', ['cf', jar_files[all_files_index], '-C', tmp_dir, 'org'], ->
           exec 'rm -rf "' + tmp_dir + '"', ->
@@ -519,7 +519,7 @@ task 'java:test:make', 'make tests', ->
     o =    'import org.cghio.cantonese.romanization.Hanzi2Pinyin;\n'
     o +=   'import static org.junit.Assert.assertEquals;\n\n'
     o +=   'public class test_hanzi2pinyin_' + index + ' {\n\n'
-    o +=   '  public static void main(String[] args) {\n'
+    o +=   '  public static void main(String[] args) throws java.io.UnsupportedEncodingException {\n'
     count = 0
     for i in [start...end]
       o += '    assertEquals(Hanzi2Pinyin.fromChar("' + String.fromCharCode(code2pinyin_keys[i]) + '"), "' +
@@ -559,19 +559,27 @@ test = (classpath, file, done) ->
     spawn 'java', ['-cp', classpath + ':' + test_dir, file], ->
       if done then done()
 
+test_all_jar_files = (func) ->
+  console.log 'Running tests towards decimal...'
+  func jar_file_decimal, ->
+    console.log 'Running tests towards octal...'
+    func jar_file_octal, ->
+      console.log 'Running tests towards string...'
+      func jar_file_string
+
 task 'java:test:benchmark', 'run benchmark', ->
-  console.log 'Decimal:'
-  test jar_file_decimal, 'benchmark', ->
-    console.log 'Octal:'
-    test jar_file_octal, 'benchmark', ->
-      console.log 'String:'
-      test jar_file_string, 'benchmark', ->
-        console.log 'Done.'
+  test_all_jar_files (jar, done) ->
+    test jar, 'benchmark', ->
+      if done then done()
 
 task 'java:test:h2p', 'run test', ->
-  test jar_file_decimal + ':' + junit, 'test_hanzi2pinyin_1', ->
-    test jar_file_decimal + ':' + junit, 'test_hanzi2pinyin_2'
+  test_all_jar_files (jar, done) ->
+    test jar + ':' + junit, 'test_hanzi2pinyin_1', ->
+      test jar + ':' + junit, 'test_hanzi2pinyin_2', ->
+        if done then done()
 
 task 'java:test:p2h', 'run test', ->
-  test jar_file_decimal + ':' + junit, 'test_pinyin2hanzi_1', ->
-    test jar_file_decimal + ':' + junit, 'test_pinyin2hanzi_2'
+  test_all_jar_files (jar, done) ->
+    test jar + ':' + junit, 'test_pinyin2hanzi_1', ->
+      test jar + ':' + junit, 'test_pinyin2hanzi_2', ->
+        if done then done()
