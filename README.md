@@ -3,6 +3,8 @@ Cantonese Romanization
 
 Convert Chinese characters to Cantonese pinyin.
 
+[![Build Status](https://travis-ci.org/caiguanhao/cantonese-romanization.png?branch=master)](https://travis-ci.org/caiguanhao/cantonese-romanization)
+
 ## Java
 
 ### Performance
