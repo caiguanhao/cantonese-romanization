@@ -1,5 +1,23 @@
 child_process = require 'child_process'
+
 test_dir = __dirname + '/test'
+release_dir = __dirname + '/release'
+
+java_src_decimal_dir = __dirname + '/java/src/decimal/org/cghio/cantonese/romanization/'
+java_src_octal_dir = __dirname + '/java/src/octal/org/cghio/cantonese/romanization/'
+java_src_string_dir = __dirname + '/java/src/string/org/cghio/cantonese/romanization/'
+java_src_to_compile = [java_src_decimal_dir, java_src_octal_dir, java_src_string_dir]
+
+jar_file_decimal = release_dir + '/cantonese-romanization-decimal.jar'
+jar_file_octal = release_dir + '/cantonese-romanization-octal.jar'
+jar_file_string = release_dir + '/cantonese-romanization-string.jar'
+jar_files = [jar_file_decimal, jar_file_octal, jar_file_string]
+
+code2pinyin = __dirname + '/json/code-pinyin.json'
+pinyin2code = __dirname + '/json/pinyin-code.json'
+pinyin2code_deep = __dirname + '/json/pinyin-code.deep.json'
+
+junit = test_dir + '/junit-4.11.jar'
 
 string_to_octal_array = (string) -> (b.toString(8) for b in new Buffer(string))
 
@@ -49,8 +67,6 @@ get_cantonese_pinyin = (string, done) ->
   req.end query
   console.log 'Sending HTTP request...'
 
-code2pinyin = __dirname + '/json/code-pinyin.json'
-
 task 'get:all', 'get all pinyin', ->
   min = 19968 # parseInt('4e00', 16)
   max = 40907 # parseInt('9fcb', 16)
@@ -87,8 +103,6 @@ task 'get:all', 'get all pinyin', ->
     write_file code2pinyin, data, ->
       console.log 'done.'
 
-pinyin2code = __dirname + '/json/pinyin-code.json'
-
 task 'swap', 'swap keys and values', ->
   list = require(code2pinyin)
   values = []
@@ -104,8 +118,6 @@ task 'swap', 'swap keys and values', ->
   data = JSON.stringify(new_list, null, 2).replace(/\n\s{4}/g, ' ').replace(/\n\s{2}\]/g, ' ]')
   write_file pinyin2code, data, ->
     console.log 'done.'
-
-pinyin2code_deep = __dirname + '/json/pinyin-code.deep.json'
 
 task 'swap:deep', 'swap keys and values', ->
   list = require(code2pinyin)
@@ -125,16 +137,6 @@ task 'swap:deep', 'swap keys and values', ->
   data = JSON.stringify(new_list, null, 2).replace(/\n\s{4}/g, ' ').replace(/\n\s{2}\]/g, ' ]')
   write_file pinyin2code_deep, data, ->
     console.log 'done.'
-
-java_src_decimal_dir = __dirname + '/java/src/decimal/org/cghio/cantonese/romanization/'
-java_src_octal_dir = __dirname + '/java/src/octal/org/cghio/cantonese/romanization/'
-java_src_string_dir = __dirname + '/java/src/string/org/cghio/cantonese/romanization/'
-java_src_to_compile = [java_src_decimal_dir, java_src_octal_dir, java_src_string_dir]
-
-jar_file_decimal = __dirname + '/release/cantonese-romanization-decimal.jar'
-jar_file_octal = __dirname + '/release/cantonese-romanization-octal.jar'
-jar_file_string = __dirname + '/release/cantonese-romanization-string.jar'
-jar_files = [jar_file_decimal, jar_file_octal, jar_file_string]
 
 make_java = (type) ->
   java_src_dir = switch type
@@ -506,7 +508,8 @@ task 'java:compile', 'compile java files and put them into jar', ->
   if all_files.length == 0
     console.log 'Please make java files first!'
   else
-    compile 0
+    exec 'mkdir -p "' + release_dir + '"', ->
+      compile 0
 
 task 'java:test:make', 'make tests', ->
   code2pinyin_list = require(code2pinyin)
@@ -537,7 +540,8 @@ task 'java:test:make', 'make tests', ->
     o +=   '  public static void main(String[] args) {\n'
     count = 0
     for i in [start...end]
-      o += '    assertArrayEquals(Pinyin2Hanzi.fromPinyin("' + pinyin2code_deep_keys[i] + '"), new int[]{ ' + pinyin2code_deep_list[pinyin2code_deep_keys[i]].join(', ') + ' });\n'
+      o += '    assertArrayEquals(Pinyin2Hanzi.fromPinyin("' + pinyin2code_deep_keys[i] + '"), new int[]{ ' +
+        pinyin2code_deep_list[pinyin2code_deep_keys[i]].join(', ') + ' });\n'
       count += 1
     o +=   '    System.out.println("' + count + ' Pinyin-to-Hanzi tests were passed.");'
     o +=   '  }\n\n'
@@ -551,8 +555,6 @@ task 'java:test:make', 'make tests', ->
         console.log 'File was saved: test_pinyin2hanzi_1.java'
         write_file test_dir + '/test_pinyin2hanzi_2.java', p2h(2, 300), ->
           console.log 'File was saved: test_pinyin2hanzi_2.java'
-
-junit = test_dir + '/junit-4.11.jar'
 
 test = (classpath, file, done) ->
   spawn 'javac', ['-cp', classpath, '-encoding', 'UTF8', test_dir + '/' + file + '.java'], ->
